@@ -47,17 +47,22 @@
       <dependency>
           <groupId>nl.bryansuk.foundationapi</groupId>
           <artifactId>file-manager</artifactId>
-          <version>1.0.6</version>
+          <version>RELEASE</version>
       </dependency>
       <dependency>
           <groupId>nl.bryansuk.foundationapi</groupId>
           <artifactId>item-manager</artifactId>
-          <version>1.0.1</version>
+          <version>RELEASE</version>
       </dependency>
       <dependency>
           <groupId>nl.bryansuk.foundationapi</groupId>
           <artifactId>text-manager</artifactId>
-          <version>1.0</version>
+          <version>RELEASE</version>
+      </dependency>
+      <dependency>
+          <groupId>nl.bryansuk.foundationapi</groupId>
+          <artifactId>menu-manager</artifactId>
+          <version>RELEASE</version>
       </dependency>
   </dependencies>
 

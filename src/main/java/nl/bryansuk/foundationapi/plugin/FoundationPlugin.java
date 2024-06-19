@@ -2,6 +2,7 @@ package nl.bryansuk.foundationapi.plugin;
 
 import nl.bryansuk.foundationapi.FileManager;
 import nl.bryansuk.foundationapi.ItemManager;
+import nl.bryansuk.foundationapi.menumanager.MenuManager;
 import nl.bryansuk.foundationapi.textmanager.TextCreator;
 import nl.bryansuk.foundationapi.components.FoundationComponent;
 import nl.bryansuk.foundationapi.dependencies.Dependency;
@@ -27,8 +28,10 @@ public abstract class FoundationPlugin extends JavaPlugin {
     private PluginStartupData startupData;
 
     private FileManager fileManager;
-    private TextCreator textCreator;
     private ItemManager itemManager;
+    private MenuManager menuManager;
+
+    private TextCreator textCreator;
 
     private boolean dependenciesLoaded;
     private long startTime ;
@@ -51,6 +54,7 @@ public abstract class FoundationPlugin extends JavaPlugin {
         fileManager = new FileManager(this, logger.getLogger());
         textCreator = new TextCreator(this);
         itemManager = new ItemManager(this);
+        menuManager = new MenuManager(this);
 
         onPluginLoad();
     }
