@@ -6,7 +6,7 @@
 
   <groupId>nl.bryansuk</groupId>
   <artifactId>foundationapi</artifactId>
-  <version>1.0.0</version>
+  <version>1.0.1</version>
   <packaging>jar</packaging>
 
   <name>FoundationAPI</name>
