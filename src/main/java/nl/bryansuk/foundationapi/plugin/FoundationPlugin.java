@@ -36,13 +36,13 @@ public abstract class FoundationPlugin extends JavaPlugin {
     private boolean dependenciesLoaded;
     private long startTime ;
 
-    abstract List<Dependency<?>> getDependencies();
-    abstract List<FoundationComponent> getComponents();
-    abstract List<StartupTask> startupTasks();
+    protected abstract List<Dependency<?>> getDependencies();
+    protected abstract List<FoundationComponent> getComponents();
+    protected abstract List<StartupTask> startupTasks();
 
-    abstract void onPluginLoad();
-    abstract void onPluginEnable();
-    abstract void onPluginDisable();
+    protected abstract void onPluginLoad();
+    protected abstract void onPluginEnable();
+    protected abstract void onPluginDisable();
 
     @Override
     public void onLoad() {
@@ -218,6 +218,10 @@ public abstract class FoundationPlugin extends JavaPlugin {
 
     public FileManager getFileManager() {
         return fileManager;
+    }
+
+    public MenuManager getMenuManager() {
+        return menuManager;
     }
 
     public static FoundationPlugin getInstance() {
