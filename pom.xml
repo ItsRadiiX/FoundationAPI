@@ -6,7 +6,7 @@
 
   <groupId>nl.bryansuk</groupId>
   <artifactId>foundationapi</artifactId>
-  <version>1.0.5</version>
+  <version>1.0.6</version>
   <packaging>jar</packaging>
 
   <name>FoundationAPI</name>
@@ -47,22 +47,22 @@
       <dependency>
           <groupId>nl.bryansuk.foundationapi</groupId>
           <artifactId>file-manager</artifactId>
-          <version>RELEASE</version>
+          <version>1.0.6</version>
       </dependency>
       <dependency>
           <groupId>nl.bryansuk.foundationapi</groupId>
           <artifactId>item-manager</artifactId>
-          <version>RELEASE</version>
+          <version>1.0.1</version>
       </dependency>
       <dependency>
           <groupId>nl.bryansuk.foundationapi</groupId>
           <artifactId>text-manager</artifactId>
-          <version>RELEASE</version>
+          <version>1.0</version>
       </dependency>
       <dependency>
           <groupId>nl.bryansuk.foundationapi</groupId>
           <artifactId>menu-manager</artifactId>
-          <version>RELEASE</version>
+          <version>1.0</version>
       </dependency>
   </dependencies>
 
