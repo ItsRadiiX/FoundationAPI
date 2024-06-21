@@ -49,9 +49,9 @@ public abstract class FoundationPlugin extends JavaPlugin {
         instance = this;
         logger = new FoundationLogger(LogManager.getRootLogger(), this);
 
+        fileManager = new FileManager(this, logger.getLogger());
         startupData = new PluginStartupData();
 
-        fileManager = new FileManager(this, logger.getLogger());
         textCreator = new TextCreator(this);
         itemManager = new ItemManager(this);
         menuManager = new MenuManager(this);
