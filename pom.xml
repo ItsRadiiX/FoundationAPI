@@ -6,7 +6,7 @@
 
   <groupId>nl.bryansuk</groupId>
   <artifactId>foundationapi</artifactId>
-  <version>1.0.2</version>
+  <version>1.0.3</version>
   <packaging>jar</packaging>
 
   <name>FoundationAPI</name>
@@ -95,7 +95,7 @@
                     <relocations>
                         <relocation>
                             <pattern>dev.jorel.commandapi</pattern>
-                            <shadedPattern>online.gamelodge.foundationapi.commandapi</shadedPattern>
+                            <shadedPattern>nl.bryansuk.foundationapi.commandapi</shadedPattern>
                         </relocation>
                     </relocations>
                 </configuration>
