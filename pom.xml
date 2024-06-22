@@ -6,7 +6,7 @@
 
   <groupId>nl.bryansuk</groupId>
   <artifactId>foundationapi</artifactId>
-  <version>1.1.1</version>
+  <version>1.1.2</version>
   <packaging>jar</packaging>
 
   <name>FoundationAPI</name>
@@ -47,7 +47,7 @@
       <dependency>
           <groupId>nl.bryansuk.foundationapi</groupId>
           <artifactId>file-manager</artifactId>
-          <version>1.1</version>
+          <version>1.1.1</version>
       </dependency>
       <dependency>
           <groupId>nl.bryansuk.foundationapi</groupId>

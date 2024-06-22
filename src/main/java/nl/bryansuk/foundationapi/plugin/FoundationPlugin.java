@@ -58,8 +58,6 @@ public abstract class FoundationPlugin extends JavaPlugin {
         startupData = new PluginStartupData();
 
         textCreator = new TextCreator(this);
-        itemManager = new ItemManager(this);
-        menuManager = new MenuManager(this);
 
         onPluginLoad();
     }
@@ -69,6 +67,9 @@ public abstract class FoundationPlugin extends JavaPlugin {
         startTime = System.nanoTime();
 
         FoundationServer.setServer(getServer());
+
+        itemManager = new ItemManager(this);
+        menuManager = new MenuManager(this);
 
         printStartupInfo();
 
