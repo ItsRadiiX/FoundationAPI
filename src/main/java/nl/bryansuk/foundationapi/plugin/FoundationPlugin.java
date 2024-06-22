@@ -1,5 +1,9 @@
 package nl.bryansuk.foundationapi.plugin;
 
+import io.papermc.paper.command.brigadier.Commands;
+import io.papermc.paper.plugin.lifecycle.event.LifecycleEvent;
+import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
+import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import nl.bryansuk.foundationapi.FileManager;
 import nl.bryansuk.foundationapi.ItemManager;
 import nl.bryansuk.foundationapi.menumanager.MenuManager;
@@ -14,6 +18,7 @@ import nl.bryansuk.foundationapi.startup.PluginStartupData;
 import nl.bryansuk.foundationapi.startup.StartupTask;
 import org.apache.logging.log4j.LogManager;
 import org.bukkit.Bukkit;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.util.ArrayList;
@@ -98,7 +103,7 @@ public abstract class FoundationPlugin extends JavaPlugin {
         tasks.add(new StartupTask(2, this::didDependenciesLoad));
 
         tasks.add(new StartupTask(10, "Loading Components...", "All Components have been initialized!", this::enableComponents));
-
+        tasks.add(new StartupTask(15, "Loading Commands...", "All Command have been initialized!", this::loadCommands));
         return tasks;
     }
 
@@ -106,6 +111,16 @@ public abstract class FoundationPlugin extends JavaPlugin {
         if (!dependenciesLoaded && startupData.getCriticalLoadErrorsAmount() > 0){
             determineErrors(startTime);
         }
+    }
+
+    private void loadCommands(){
+        LifecycleEventManager<Plugin> manager = this.getLifecycleManager();
+        manager.registerEventHandler(LifecycleEvents.COMMANDS, event -> {
+            final Commands commands = event.registrar();
+            for (FoundationComponent component : getComponents()) {
+                component.registerCommands(commands);
+            }
+        });
     }
 
     private void checkDependencies() {
@@ -144,7 +159,7 @@ public abstract class FoundationPlugin extends JavaPlugin {
     }
 
     protected void disableComponents(){
-        getComponents().forEach(FoundationComponent::start);
+        getComponents().forEach(FoundationComponent::stop);
     }
 
     private void logDependencyStatus(String dependencyName, boolean found) {

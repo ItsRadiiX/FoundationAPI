@@ -1,5 +1,6 @@
 package nl.bryansuk.foundationapi.components;
 
+import io.papermc.paper.command.brigadier.Commands;
 import nl.bryansuk.foundationapi.logging.FoundationLogger;
 import nl.bryansuk.foundationapi.plugin.FoundationPlugin;
 
@@ -23,6 +24,7 @@ public abstract class FoundationComponent {
 
     public abstract void onComponentEnable() throws Exception;
     public abstract void onComponentDisable() throws Exception;
+    public abstract void registerCommands(Commands commands);
 
     public void start(){
         try {
@@ -41,7 +43,7 @@ public abstract class FoundationComponent {
 
     public void stop(){
         try {
-            onComponentEnable();
+            onComponentDisable();
             logger.logToConsole("&7Component \"" + name + "\" has been deactivated!");
         } catch (Exception e) {
             logger.errorToConsole("&cAn error occurred while deactivating Component \"" + name + "\"!");
