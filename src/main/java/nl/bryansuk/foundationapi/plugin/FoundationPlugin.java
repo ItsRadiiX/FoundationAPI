@@ -1,29 +1,36 @@
 package nl.bryansuk.foundationapi.plugin;
 
 import io.papermc.paper.command.brigadier.Commands;
-import io.papermc.paper.plugin.lifecycle.event.LifecycleEvent;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
 import nl.bryansuk.foundationapi.FileManager;
 import nl.bryansuk.foundationapi.ItemManager;
-import nl.bryansuk.foundationapi.menumanager.MenuManager;
-import nl.bryansuk.foundationapi.textmanager.TextCreator;
 import nl.bryansuk.foundationapi.components.FoundationComponent;
+import nl.bryansuk.foundationapi.converter.YAMLConverter;
 import nl.bryansuk.foundationapi.dependencies.Dependency;
 import nl.bryansuk.foundationapi.dependencies.HardDependency;
 import nl.bryansuk.foundationapi.dependencies.SoftDependency;
+import nl.bryansuk.foundationapi.handlers.ConfigurationHandler;
+import nl.bryansuk.foundationapi.handlers.FileHandler;
+import nl.bryansuk.foundationapi.handlers.Handler;
+import nl.bryansuk.foundationapi.languages.providers.FilesLanguageProvider;
 import nl.bryansuk.foundationapi.logging.FoundationLogger;
+import nl.bryansuk.foundationapi.menumanager.MenuManager;
 import nl.bryansuk.foundationapi.startup.LoadError;
 import nl.bryansuk.foundationapi.startup.PluginStartupData;
 import nl.bryansuk.foundationapi.startup.StartupTask;
+import nl.bryansuk.foundationapi.textmanager.MessagesManager;
+import nl.bryansuk.foundationapi.textmanager.TextCreator;
 import org.apache.logging.log4j.LogManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 public abstract class FoundationPlugin extends JavaPlugin {
 
@@ -31,8 +38,10 @@ public abstract class FoundationPlugin extends JavaPlugin {
     private static FoundationLogger logger;
 
     private PluginStartupData startupData;
+    private ConfigurationHandler foundationConfiguration;
 
     private FileManager fileManager;
+    private MessagesManager messagesManager;
     private ItemManager itemManager;
     private MenuManager menuManager;
 
@@ -40,6 +49,7 @@ public abstract class FoundationPlugin extends JavaPlugin {
 
     private boolean dependenciesLoaded;
     private long startTime ;
+
 
     protected abstract List<Dependency<?>> getDependencies();
     protected abstract List<FoundationComponent> getComponents();
@@ -55,8 +65,15 @@ public abstract class FoundationPlugin extends JavaPlugin {
         logger = new FoundationLogger(LogManager.getRootLogger(), this);
 
         fileManager = new FileManager(this, logger.getLogger());
+        foundationConfiguration = new ConfigurationHandler("configuration/main_config.yml",
+                new YAMLConverter<>(),
+                true,
+                true);
         startupData = new PluginStartupData();
 
+        messagesManager = new MessagesManager(this,
+                new FilesLanguageProvider("locale"),
+                Locale.of(foundationConfiguration.getString("defaultLocale", Locale.ENGLISH.getLanguage())));
         textCreator = new TextCreator(this);
 
         onPluginLoad();
@@ -84,7 +101,19 @@ public abstract class FoundationPlugin extends JavaPlugin {
     public void onDisable() {
         onPluginDisable();
 
+        saveAllFiles();
         disableComponents();
+    }
+
+    private void saveAllFiles() {
+        FileManager.getHandlers()
+                .stream()
+                .filter(handler -> handler instanceof FileHandler<?>)
+                .map(handler -> (FileHandler<?>) handler)
+                .forEach(fileHandler -> {
+                    Object o = fileHandler.getObject();
+                    if (o != null) fileHandler.write(o);
+                });
     }
 
     private List<StartupTask> getSortedTasks(){
@@ -222,6 +251,14 @@ public abstract class FoundationPlugin extends JavaPlugin {
 
     public static FoundationLogger getFoundationLogger() {
         return logger;
+    }
+
+    public ConfigurationHandler getFoundationConfiguration() {
+        return foundationConfiguration;
+    }
+
+    public MessagesManager getMessagesManager() {
+        return messagesManager;
     }
 
     public ItemManager getItemManager() {
