@@ -30,7 +30,7 @@ public abstract class FoundationPaperComponent {
     public void start(){
         try {
             onComponentEnable();
-            logger.info("&7Component \"" + name + "\" has been activated!");
+            logger.debug("&7Component \"" + name + "\" has been activated!");
         } catch (Exception e) {
             logger.error("&cComponent \"" + name + "\" was not activated!");
             logger.error(e);
@@ -45,7 +45,7 @@ public abstract class FoundationPaperComponent {
     public void stop(){
         try {
             onComponentDisable();
-            logger.info("&7Component \"" + name + "\" has been deactivated!");
+            logger.debug("&7Component \"" + name + "\" has been deactivated!");
         } catch (Exception e) {
             logger.error("&cAn error occurred while deactivating Component \"" + name + "\"!");
             logger.error(e);

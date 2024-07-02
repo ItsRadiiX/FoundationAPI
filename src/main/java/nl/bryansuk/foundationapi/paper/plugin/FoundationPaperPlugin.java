@@ -129,7 +129,7 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     private List<StartupTask> getDefaultStartupTasks() {
         List<StartupTask> tasks = new ArrayList<>();
 
-        tasks.add(new StartupTask(1,"Loading Dependencies...", "All  Dependencies have been initialized!", this::checkDependencies));
+        tasks.add(new StartupTask(1,"Loading Dependencies...", "All Dependencies have been initialized!", this::checkDependencies));
         tasks.add(new StartupTask(2, this::didDependenciesLoad));
 
         tasks.add(new StartupTask(10, "Loading Components...", "All Components have been initialized!", this::enableComponents));
@@ -177,8 +177,8 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
         }
 
         if (requiredDependenciesFound != totalRequiredDependencies) {
-            logger.startupDebug(String.format("&c%-40s&7|", "Could not find all dependencies!"));
-            logger.startupDebug(String.format("&c%-40s&7|", "These plugins are required!"));
+            logger.startupDebug(String.format("<red>%-40s&7|", "Could not find all dependencies!"));
+            logger.startupDebug(String.format("<red>%-40s&7|", "These plugins are required!"));
         } else {
             dependenciesLoaded = true;
         }
@@ -193,20 +193,20 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     }
 
     private void logDependencyStatus(String dependencyName, boolean found) {
-        String status = found ? "&aFOUND" : "&cNOT FOUND <<---";
-        logger.startupDebug(String.format("&7- &6%-39s&7 | %s", dependencyName, status));
+        String status = found ? "<green>FOUND" : "<red>NOT FOUND <<---";
+        logger.startupDebug(String.format("<gray>- <gold>%-39s<gray> | %s", dependencyName, status));
     }
 
     public void printStartupInfo(){
-        logger.startupDebug("&7()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
+        logger.startupDebug("<gray>()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
         printLogo(getLogo());
         logger.startupDebug("");
         logger.startupDebug("Version: " + getPluginMeta().getVersion());
         if (startupData.getStartupPromoteAuthor()) logger.startupDebug("Author(s): " + getPluginMeta().getAuthors());
         logger.startupDebug("Server Version " + getServer().getMinecraftVersion());
-        logger.startupDebug("&7()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
+        logger.startupDebug("<gray>()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
         logger.startupDebug("");
-        logger.startupDebug(" " + getPluginMeta().getName() + " is starting...");
+        logger.startupDebug("<gold>" + getPluginMeta().getName() + "<gray> is starting...");
     }
 
     private void printLogo(List<String> logo) {
@@ -219,7 +219,7 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
 
     public void finishSetup(){
         // Footer
-        logger.startupDebug(String.format("&7%-41s|", "-".repeat(41)));
+        logger.startupDebug(String.format("<gray>%-41s|", "-".repeat(41)));
 
         // Check if everything loaded successfully
         determineErrors(startTime);
@@ -227,19 +227,19 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
 
     public void determineErrors(long startTime){
         if (startupData.getCriticalLoadErrorsAmount() > 0){
-            logger.startupDebug("&7");
-            logger.startupDebug("&6" + getPluginMeta().getName() + " &7could not load due to " + startupData.getLoadErrors() + "&7 error(s)!");
             logger.startupDebug("");
-            logger.startupDebug("&cPlease read any information shown to try to understand this error!");
-            logger.startupDebug("&6" + getPluginMeta().getName() + " &7will now be disabled!");
-            logger.startupDebug("&7()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
+            logger.startupDebug("<gold>" + getPluginMeta().getName() + "<gray> could not load due to <red>" + startupData.getLoadErrors() + "<gray> error(s)!");
+            logger.startupDebug("");
+            logger.startupDebug("<red>Please read any information shown to try to understand this error!");
+            logger.startupDebug("<gold>>" + getPluginMeta().getName() + "<gray> will now be disabled!");
+            logger.startupDebug("<gray>()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
             logger.startupDebug("");
             Bukkit.getScheduler().runTaskAsynchronously(this , () -> Bukkit.getPluginManager().disablePlugin(this));
         } else {
-            logger.startupDebug("&7");
-            logger.startupDebug("&6" + getPluginMeta().getName() + "&7 has loaded with " + startupData.getLoadErrors() + "&7 error(s)!");
-            logger.startupDebug("&7Took: " + determineTimePassed(startTime) + "ms to start plugin. &a=)");
-            logger.startupDebug("&7()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
+            logger.startupDebug("<gray>");
+            logger.startupDebug("&6" + getPluginMeta().getName() + "<gray> has loaded with " + startupData.getLoadErrors() + "<gray> error(s)!");
+            logger.startupDebug("<gray>Took: " + determineTimePassed(startTime) + "ms to start plugin. <green>=)");
+            logger.startupDebug("<gray>()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
             logger.startupDebug("");
         }
 

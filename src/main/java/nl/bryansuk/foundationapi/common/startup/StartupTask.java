@@ -8,11 +8,11 @@ public class StartupTask implements Comparable<StartupTask> {
 
     private final FoundationLogger logger;
     private static int newID = 0;
-    private final int taskID;
+    private int taskID;
 
     private final int weight;
-    private final String startupMessage;
-    private final String completeMessage;
+    private String startupMessage;
+    private String completeMessage;
     private final Runnable execute;
 
     private double timePassed;
@@ -29,7 +29,9 @@ public class StartupTask implements Comparable<StartupTask> {
     }
 
     public StartupTask(int weight, Runnable execute) {
-        this(weight, null, null, execute);
+        this.logger = FoundationPaperPlugin.getFoundationLogger();
+        this.weight = weight;
+        this.execute = execute;
     }
 
     public void run() {
