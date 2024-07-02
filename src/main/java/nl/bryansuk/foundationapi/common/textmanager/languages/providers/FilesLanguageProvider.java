@@ -26,7 +26,7 @@ public class FilesLanguageProvider implements LanguageProvider {
                 Locale locale = Locale.of((String) language.get("locale"));
                 languagesByLocale.put(locale, new Language(language));
             } catch (Exception e){
-                MessagesManager.getInstance().getComponentLogger().warn("Could not identify locale: {}", language.get("locale"));
+                MessagesManager.getInstance().getComponentLogger().warn("<red>Could not identify locale: {0}", language.get("locale"));
             }
         }
         return languagesByLocale;

@@ -99,7 +99,7 @@ public class FileHandler<T> extends Handler {
             return checkIfObjectExists(true);
         } catch (IOException e) {
             // Log error
-            FileManager.getLogger().error("&cCannot load file {}", getPath(), e);
+            FileManager.getLogger().error(e,"<red>Cannot load file {0}", getPath());
             // Check if there's a previously loaded valid file
             return checkIfObjectExists(true);
         }
@@ -107,7 +107,7 @@ public class FileHandler<T> extends Handler {
 
     private T checkIfObjectExists(boolean fileExists) {
         if (object != null) {
-            FileManager.getLogger().log(Level.ERROR,"A previously loaded file was valid, using it instead.");
+            FileManager.getLogger().error("<red>A previously loaded file was valid, using it instead.");
             return object;
         }
 
@@ -118,7 +118,7 @@ public class FileHandler<T> extends Handler {
                 write(defaultContent); // Write default content to file
                 return defaultContent;
             } catch (IOException e) {
-                FileManager.getLogger().error("&cCannot load file {}", getPath(), e);
+                FileManager.getLogger().error(e,"<red>Cannot load file {0}", getPath());
             }
         }
 

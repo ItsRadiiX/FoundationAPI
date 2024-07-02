@@ -35,7 +35,7 @@ public class StartupTask implements Comparable<StartupTask> {
     public void run() {
 
         if (startupMessage != null && !startupMessage.isBlank()) {
-            logger.info(String.format("&7%-40s | (task %d Started)", startupMessage, taskID));
+            logger.info(String.format("<gray>%-40s | (task %d Started)", startupMessage, taskID));
         }
 
         long startTime = System.nanoTime();
@@ -43,8 +43,8 @@ public class StartupTask implements Comparable<StartupTask> {
         timePassed = determineTimePassed(startTime);
 
         if (completeMessage != null && !completeMessage.isBlank()) {
-            logger.info(String.format("&7%-40s | (task %d Completed, took: %fms)", completeMessage, taskID, timePassed));
-            logger.info(String.format("&7%-40s |", ""));
+            logger.info(String.format("<gray>%-40s | (task %d Completed, took: %fms)", completeMessage, taskID, timePassed));
+            logger.info(String.format("<gray>%-40s |", ""));
         }
     }
 

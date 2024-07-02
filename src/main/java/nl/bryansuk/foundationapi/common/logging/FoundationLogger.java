@@ -87,6 +87,12 @@ public class FoundationLogger {
     }
 
     private static String formatMessage(String messageTemplate, Object... args) {
+        if (messageTemplate == null) return "Null";
+        if (args.length == 1) {
+            if (messageTemplate.contains("{}")) return messageTemplate.replace("{}", String.valueOf(args[0]));
+            if (messageTemplate.contains("{0}")) return messageTemplate.replace("{0}", String.valueOf(args[0]));
+        }
+
         for (int i = 0; i < args.length; i++) {
             messageTemplate = messageTemplate.replace("{" + i + "}", args[i].toString());
         }

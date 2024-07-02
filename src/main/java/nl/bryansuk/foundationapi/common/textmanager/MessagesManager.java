@@ -50,7 +50,7 @@ public class MessagesManager {
             if (object == null) object = getLanguage(defaultLocale).messages().get(message);
             return parseObjectToString(object);
         } catch (Exception e){
-            componentLogger.warn("Cannot get message with key: {}", message);
+            componentLogger.warn("<red>Cannot get message with key: {0}", message);
             return "{" + message + "}";
         }
     }
