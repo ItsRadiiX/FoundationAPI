@@ -1,8 +1,8 @@
 package nl.bryansuk.foundationapi.common.exceptions;
 
 public class FileManagerException extends RuntimeException {
-    public FileManagerException() {
-    }
+
+    public FileManagerException() {}
 
     public FileManagerException(String message) {
         super(message);

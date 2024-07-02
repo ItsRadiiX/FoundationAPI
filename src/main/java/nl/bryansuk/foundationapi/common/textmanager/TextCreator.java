@@ -8,8 +8,8 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import net.kyori.adventure.text.minimessage.tag.standard.StandardTags;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import nl.bryansuk.foundationapi.common.exceptions.InvalidMessagesException;
-
 import nl.bryansuk.foundationapi.common.playerinfo.PlayerInfo;
+import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
@@ -86,7 +86,12 @@ public final class TextCreator {
         List<TagResolver> tagResolvers = new ArrayList<>();
         tagResolvers.add(StandardTags.defaults());
 
-        tags.forEach((key, value) -> tagResolvers.add(Placeholder.parsed(key, value)));
+        for (Map.Entry<String, String> entry : tags.entrySet()) {
+            @Subst("") String key = entry.getKey();
+            String value = entry.getValue();
+            tagResolvers.add(Placeholder.parsed(key, value));
+        }
+
         return tagResolvers;
     }
 
@@ -104,7 +109,7 @@ public final class TextCreator {
     }
 
     @Contract("_, _ -> new")
-    public static @NotNull TagResolver createPlaceholder(@NotNull String placeholder, String value) {
+    public static @NotNull TagResolver createPlaceholder(@Subst("") @NotNull String placeholder, String value) {
         return Placeholder.parsed(placeholder, value);
     }
 

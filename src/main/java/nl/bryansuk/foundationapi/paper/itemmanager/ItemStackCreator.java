@@ -2,6 +2,7 @@ package nl.bryansuk.foundationapi.paper.itemmanager;
 
 import com.destroystokyo.paper.inventory.meta.ArmorStandMeta;
 import com.destroystokyo.paper.profile.PlayerProfile;
+import io.papermc.paper.potion.SuspiciousEffectEntry;
 import net.kyori.adventure.text.Component;
 import org.bukkit.*;
 import org.bukkit.attribute.Attribute;
@@ -35,7 +36,7 @@ import java.util.Map;
  * {@code @Author} ItsRadiiX Aka Bryan Suk
  */
 
-@SuppressWarnings("unused")
+@SuppressWarnings({"unused", "", "UnstableApiUsage"})
 public class ItemStackCreator {
 
     private final ItemStack result;
@@ -551,6 +552,7 @@ public class ItemStackCreator {
      * @param pages The pages of the book.
      * @return The ItemCreator instance.
      */
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     public ItemStackCreator setBookPages(Component... pages){
         if (itemMeta instanceof BookMeta meta) {
             meta.pages(pages);
@@ -1016,7 +1018,7 @@ public class ItemStackCreator {
      * @param overwrite Whether to overwrite existing effects.
      * @return The ItemCreator instance.
      */
-    public ItemStackCreator addSuspiciousStewCustomEffect(PotionEffect effect, boolean overwrite){
+    public ItemStackCreator addSuspiciousStewCustomEffect(SuspiciousEffectEntry effect, boolean overwrite){
         if (itemMeta instanceof SuspiciousStewMeta meta){
             meta.addCustomEffect(effect, overwrite);
         }

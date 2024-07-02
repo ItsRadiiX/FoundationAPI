@@ -7,14 +7,12 @@ import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import nl.bryansuk.foundationapi.common.filemanager.FileManager;
 import nl.bryansuk.foundationapi.common.filemanager.converter.Converter;
-import org.apache.logging.log4j.Level;
 
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.Map;
 
-@SuppressWarnings("unused")
 public class FileHandler<T> extends Handler {
 
     private final Converter<T> converter;

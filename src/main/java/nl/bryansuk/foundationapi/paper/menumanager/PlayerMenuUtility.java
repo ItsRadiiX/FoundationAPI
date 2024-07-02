@@ -28,7 +28,7 @@ public class PlayerMenuUtility {
         this.dataMap.put(identifier, data);
     }
 
-    public void setData(Enum identifier, Object data) {
+    public void setData(@SuppressWarnings("rawtypes") Enum identifier, Object data) {
         this.dataMap.put(identifier.toString(), data);
     }
 
@@ -40,7 +40,7 @@ public class PlayerMenuUtility {
         return this.dataMap.get(identifier);
     }
 
-    public Object getData(Enum identifier) {
+    public Object getData(@SuppressWarnings("rawtypes") Enum identifier) {
         return this.dataMap.get(identifier.toString());
     }
 
@@ -55,7 +55,7 @@ public class PlayerMenuUtility {
         }
     }
 
-    public <T> T getData(Enum identifier, Class<T> classRef) {
+    public <T> T getData(@SuppressWarnings("rawtypes") Enum identifier, Class<T> classRef) {
 
         Object obj = this.dataMap.get(identifier.toString());
 

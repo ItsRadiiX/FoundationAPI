@@ -1,7 +1,6 @@
 package nl.bryansuk.foundationapi.common.textmanager;
 
 import net.kyori.adventure.text.Component;
-import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
 import nl.bryansuk.foundationapi.common.playerinfo.PlayerInfo;

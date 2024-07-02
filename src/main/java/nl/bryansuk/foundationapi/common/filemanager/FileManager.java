@@ -3,14 +3,12 @@ package nl.bryansuk.foundationapi.common.filemanager;
 import nl.bryansuk.foundationapi.common.exceptions.FileManagerException;
 import nl.bryansuk.foundationapi.common.filemanager.handlers.Handler;
 import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
-import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-@SuppressWarnings("unused")
 public abstract class FileManager {
 
     protected static FileManager instance;

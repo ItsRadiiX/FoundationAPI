@@ -1,8 +1,8 @@
 package nl.bryansuk.foundationapi.common.exceptions;
 
 public class MenuManagerException extends RuntimeException {
-    public MenuManagerException() {
-    }
+
+    public MenuManagerException() {}
 
     public MenuManagerException(String message) {
         super(message);

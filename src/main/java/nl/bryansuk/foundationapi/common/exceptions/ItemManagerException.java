@@ -1,8 +1,8 @@
 package nl.bryansuk.foundationapi.common.exceptions;
 
 public class ItemManagerException extends RuntimeException {
-    public ItemManagerException() {
-    }
+
+    public ItemManagerException() {}
 
     public ItemManagerException(String message) {
         super(message);

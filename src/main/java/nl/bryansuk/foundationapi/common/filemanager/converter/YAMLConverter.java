@@ -20,6 +20,7 @@ public class YAMLConverter<T> implements Converter<T>{
         return mapper;
     }
 
+    @SuppressWarnings("ResultOfMethodCallIgnored")
     @Override
     public void writeToFile(Object data, File file) throws IOException {
         // Make sure all directories have been made

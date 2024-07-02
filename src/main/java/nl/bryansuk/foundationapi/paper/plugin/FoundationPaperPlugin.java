@@ -25,12 +25,12 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
-import java.awt.print.Paper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
+@SuppressWarnings({"unused", "UnstableApiUsage"})
 public abstract class FoundationPaperPlugin extends JavaPlugin {
 
     private static FoundationPaperPlugin instance;

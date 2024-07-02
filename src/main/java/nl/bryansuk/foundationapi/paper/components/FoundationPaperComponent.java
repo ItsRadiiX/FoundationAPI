@@ -5,6 +5,7 @@ import io.papermc.paper.command.brigadier.Commands;
 import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
 import nl.bryansuk.foundationapi.paper.plugin.FoundationPaperPlugin;
 
+@SuppressWarnings("UnstableApiUsage")
 public abstract class FoundationPaperComponent {
 
     protected FoundationPaperPlugin plugin;
