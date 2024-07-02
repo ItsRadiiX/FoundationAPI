@@ -126,6 +126,14 @@ public final class TextCreator {
         }
     }
 
+    public static void addTagResolvers(Map<String, String> newTags) {
+        tags.putAll(newTags);
+
+        if (miniMessage != null) {
+            setupMiniMessage();
+        }
+    }
+
     public static String parseObjectToString(Object o) throws InvalidMessagesException {
         switch (o) {
             case String s -> {return s;}

@@ -2,6 +2,7 @@ package nl.bryansuk.foundationapi.common.textmanager.languages.providers;
 import nl.bryansuk.foundationapi.common.filemanager.converter.YAMLConverter;
 import nl.bryansuk.foundationapi.common.filemanager.handlers.FolderHandler;
 import nl.bryansuk.foundationapi.common.textmanager.MessagesManager;
+import nl.bryansuk.foundationapi.common.textmanager.TextCreator;
 import nl.bryansuk.foundationapi.common.textmanager.languages.Language;
 
 import java.util.HashMap;
@@ -16,15 +17,28 @@ public class FilesLanguageProvider implements LanguageProvider {
         locales = new FolderHandler<>(folder, new YAMLConverter<>(),true);
     }
 
+
+
     @Override
     public Map<Locale, Language> getLanguagesByLocale() {
-        Map<Locale, Language> languagesByLocale = new HashMap<>();
-        List<Map<String, Object>> languages = locales.getObjects();
 
-        for (Map<String, Object> language : languages) {
+        Map<Locale, Language> languagesByLocale = new HashMap<>();
+        List<Map<String, Object>> files = locales.getObjects();
+
+        for (Map<String, Object> language : files) {
             try {
-                Locale locale = Locale.of((String) language.get("locale"));
-                languagesByLocale.put(locale, new Language(language));
+                String locale = (String) language.get("locale");
+                if (locale.equalsIgnoreCase("TAGS") || locale.equalsIgnoreCase("TAG")) {
+                    Map<String, String> tags = new HashMap<>();
+                    language.forEach((key, value) -> {
+                        if (value instanceof String string) {
+                            tags.put(key, string);
+                        }
+                    });
+                    TextCreator.addTagResolvers(tags);
+                } else {
+                    languagesByLocale.put(Locale.of(locale), new Language(language));
+                }
             } catch (Exception e){
                 MessagesManager.getInstance().getComponentLogger().warn("<red>Could not identify locale: {0}", language.get("locale"));
             }
