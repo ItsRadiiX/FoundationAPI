@@ -1,6 +1,7 @@
 package nl.bryansuk.foundationapi.paper.filemanager;
 
 import nl.bryansuk.foundationapi.common.filemanager.FileManager;
+import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
 import nl.bryansuk.foundationapi.paper.events.FileReloadEvent;
 import nl.bryansuk.foundationapi.paper.events.FolderReloadEvent;
 import org.apache.logging.log4j.Logger;
@@ -12,7 +13,7 @@ public class PaperFileManager extends FileManager {
 
     private final JavaPlugin javaPlugin;
 
-    public PaperFileManager(JavaPlugin javaPlugin, Logger logger) {
+    public PaperFileManager(JavaPlugin javaPlugin, FoundationLogger logger) {
         super(logger);
         this.javaPlugin = javaPlugin;
     }

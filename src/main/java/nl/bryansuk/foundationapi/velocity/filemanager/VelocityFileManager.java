@@ -2,9 +2,9 @@ package nl.bryansuk.foundationapi.velocity.filemanager;
 
 import com.velocitypowered.api.proxy.ProxyServer;
 import nl.bryansuk.foundationapi.common.filemanager.FileManager;
+import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
 import nl.bryansuk.foundationapi.velocity.events.FileReloadEvent;
 import nl.bryansuk.foundationapi.velocity.events.FolderReloadEvent;
-import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
 import java.nio.file.Path;
@@ -14,7 +14,7 @@ public class VelocityFileManager extends FileManager {
     private final ProxyServer proxyServer;
     private final Path dataDirectory;
 
-    public VelocityFileManager(ProxyServer proxyServer, Path dataDirectory, Logger logger) {
+    public VelocityFileManager(ProxyServer proxyServer, Path dataDirectory, FoundationLogger logger) {
         super(logger);
         this.proxyServer = proxyServer;
         this.dataDirectory = dataDirectory;

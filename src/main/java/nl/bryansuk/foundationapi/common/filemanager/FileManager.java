@@ -2,6 +2,7 @@ package nl.bryansuk.foundationapi.common.filemanager;
 
 import nl.bryansuk.foundationapi.common.exceptions.FileManagerException;
 import nl.bryansuk.foundationapi.common.filemanager.handlers.Handler;
+import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
 import org.apache.logging.log4j.Logger;
 
 import java.io.InputStream;
@@ -14,7 +15,7 @@ public abstract class FileManager {
 
     protected static FileManager instance;
 
-    protected final Logger logger;
+    protected final FoundationLogger logger;
 
     protected static final List<Handler> handlers = Collections.synchronizedList(new ArrayList<>());
     protected static Runnable autoReloadTask;
@@ -25,7 +26,7 @@ public abstract class FileManager {
     public abstract void callFolderReloadEvent(String folderName);
     public abstract String getDataFolder();
 
-    public FileManager(Logger logger) {
+    public FileManager(FoundationLogger logger) {
         if(instance != null) {
             throw new FileManagerException("You can only have one instance of the FileManager at a time.");
         }
@@ -39,7 +40,7 @@ public abstract class FileManager {
         return instance;
     }
 
-    public static Logger getLogger() {
+    public static FoundationLogger getLogger() {
         return getInstance().logger;
     }
 

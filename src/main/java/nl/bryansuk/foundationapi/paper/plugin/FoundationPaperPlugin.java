@@ -18,12 +18,14 @@ import nl.bryansuk.foundationapi.common.textmanager.MessagesManager;
 import nl.bryansuk.foundationapi.common.textmanager.TextCreator;
 import nl.bryansuk.foundationapi.common.textmanager.languages.providers.FilesLanguageProvider;
 import nl.bryansuk.foundationapi.paper.components.FoundationPaperComponent;
+import nl.bryansuk.foundationapi.paper.filemanager.PaperFileManager;
 import nl.bryansuk.foundationapi.paper.itemmanager.ItemManager;
 import nl.bryansuk.foundationapi.paper.menumanager.MenuManager;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.awt.print.Paper;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -61,14 +63,14 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
         instance = this;
         logger = new FoundationLogger(getComponentLogger());
 
-        fileManager = new FileManager(this, );
+        fileManager = new PaperFileManager(this, logger);
         foundationConfiguration = new ConfigurationHandler("configuration/main_config.yml",
                 new YAMLConverter<>(),
                 true,
                 true);
         startupData = new PluginStartupData();
 
-        messagesManager = new MessagesManager(,
+        messagesManager = new MessagesManager(logger,
                 new FilesLanguageProvider("locale"),
                 Locale.of(foundationConfiguration.getString("defaultLocale", Locale.ENGLISH.getLanguage())));
 

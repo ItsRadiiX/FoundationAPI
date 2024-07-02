@@ -1,8 +1,7 @@
 package nl.bryansuk.foundationapi.velocity.events;
 
-import com.velocitypowered.api.event.Event;
 
-public class FileReloadEvent implements Event {
+public class FileReloadEvent {
     private final String fileName;
 
     public FileReloadEvent(String fileName) {
