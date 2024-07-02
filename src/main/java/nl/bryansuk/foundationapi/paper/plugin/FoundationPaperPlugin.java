@@ -68,7 +68,9 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
                 new YAMLConverter<>(),
                 true,
                 true);
+
         startupData = new PluginStartupData();
+        logger.setStartupData(startupData);
 
         messagesManager = new MessagesManager(logger,
                 new FilesLanguageProvider("locale"),

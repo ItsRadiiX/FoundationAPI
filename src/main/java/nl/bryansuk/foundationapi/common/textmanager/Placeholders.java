@@ -9,15 +9,12 @@ import java.util.function.BiFunction;
 
 public final class Placeholders {
 
-    private static Placeholders instance;
-    private final List<BiFunction<@Nullable PlayerInfo, String, String>> parsers = new ArrayList<>();
+    private static final List<BiFunction<@Nullable PlayerInfo, String, String>> parsers = new ArrayList<>();
 
-    public Placeholders(){
-        if (instance == null) instance = this;
-    }
+    private Placeholders() {}
 
     public static String parsePlaceholder(@Nullable PlayerInfo offlinePlayer, String payload){
-        for (BiFunction<PlayerInfo, String, String> parser : getInstance().parsers) {
+        for (BiFunction<PlayerInfo, String, String> parser : parsers) {
             try {
                 String parsedPayload = parser.apply(offlinePlayer, payload);
                 if (parsedPayload != null) return parsedPayload;
@@ -27,10 +24,6 @@ public final class Placeholders {
     }
 
     public static void addParser(BiFunction<@Nullable PlayerInfo, String, String> parser){
-        getInstance().parsers.add(parser);
-    }
-
-    public static Placeholders getInstance() {
-        return instance;
+        parsers.add(parser);
     }
 }
