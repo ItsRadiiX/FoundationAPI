@@ -1,6 +1,5 @@
 package nl.bryansuk.foundationapi.common.filemanager.handlers;
 
-import nl.bryansuk.foundationapi.common.filemanager.FileManager;
 import nl.bryansuk.foundationapi.common.filemanager.converter.Converter;
 
 import java.io.File;
@@ -13,10 +12,12 @@ public class FolderHandler<T> extends Handler {
 
     private final Converter<T> converter;
     private final List<FileHandler<T>> fileHandlersList;
+    private final boolean defaultResource;
 
-    public FolderHandler(String path, Converter<T> converter, boolean isAutoReloading) {
+    public FolderHandler(String path, Converter<T> converter, boolean defaultResource, boolean isAutoReloading) {
         super(path, isAutoReloading);
         this.converter = converter;
+        this.defaultResource = defaultResource;
         this.fileHandlersList = Collections.synchronizedList(new ArrayList<>());
     }
 
@@ -33,8 +34,8 @@ public class FolderHandler<T> extends Handler {
                                 + getFolderSeparator()
                                 + file.getName(),
                         converter,
-                        false,
-                        false);
+                        defaultResource,
+                        isAutoReloading());
                 fileHandlersList.add(fileHandler);
                 fileHandler.read();
             }
@@ -45,18 +46,16 @@ public class FolderHandler<T> extends Handler {
 
     @Override
     public boolean onReload() {
-        if (isNewVersionAvailable()){
-            initialize();
-        } else {
-            fileHandlersList.forEach(FileHandler::onReload);
-        }
-        FileManager.getInstance().callFolderReloadEvent(getFile().getName());
-        return true;
+        return false;
     }
 
     @Override
     public void destroy() {
         clearFileHandlers();
+    }
+
+    public List<FileHandler<T>> getFileHandlersList() {
+        return fileHandlersList;
     }
 
     public List<T> getObjects(){

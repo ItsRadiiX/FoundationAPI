@@ -52,7 +52,7 @@ public class FoundationLogger {
      * Logs an error to the console.
      * @param error the error to be logged.
      */
-    public void error(String error, Exception exception){
+    public void error(String error, Throwable exception){
         error(error);
         error(exception);
     }
@@ -61,7 +61,15 @@ public class FoundationLogger {
      * Logs an error to the console.
      * @param error the error to be logged.
      */
-    public void error(Exception exception, String error, Object... arguments){
+    public void error(String error, Object... arguments){
+        error(formatMessage(error, arguments));
+    }
+
+    /**
+     * Logs an error to the console.
+     * @param error the error to be logged.
+     */
+    public void error(Throwable exception, String error, Object... arguments){
         error(formatMessage(error, arguments));
         error(exception);
     }
@@ -70,7 +78,7 @@ public class FoundationLogger {
      * Logs an error to the console.
      * @param exception the error to be logged.
      */
-    public void error(Exception exception){
+    public void error(Throwable exception){
         logger.error(TextCreator.create(exception.getMessage()));
     }
 

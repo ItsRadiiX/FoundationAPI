@@ -1,23 +1,29 @@
 package nl.bryansuk.foundationapi.common.playerinfo;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+import nl.bryansuk.foundationapi.common.playerinfo.models.PlayerDataModel;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.HashSet;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
 
 @SuppressWarnings("unused")
 public class PlayerInfo {
-    private final UUID uuid;
-    private final Map<String, Object> data;
 
-    public PlayerInfo(UUID uuid) {
+    private static final Set<PlayerDataModel> defaultPlayerDataModel = new HashSet<>();
+
+    private final UUID uuid;
+    private final Set<PlayerDataModel> data;
+
+    public PlayerInfo(@JsonProperty("uuid") UUID uuid) {
         this.uuid = uuid;
-        this.data = new HashMap<>();
+        this.data = new HashSet<>(defaultPlayerDataModel);
     }
 
-    public PlayerInfo(UUID uuid, Map<String, Object> data) {
+    public PlayerInfo(@JsonProperty("uuid") UUID uuid, @JsonProperty("data") Set<PlayerDataModel> data) {
         this.uuid = uuid;
         this.data = data;
     }
@@ -26,28 +32,28 @@ public class PlayerInfo {
         return uuid;
     }
 
-    public Map<String, Object> getDataMap() {
+    public Set<PlayerDataModel> getDataSet() {
         return data;
     }
 
-    public void setData(String key, Object object){
-        data.put(key, object);
+    public void setData(PlayerDataModel object){
+        data.add(object);
     }
 
-    public @Nullable <T> T getData(String key, Class<T> classType){
-        return castObjectToType(data.get(key), classType);
+    public @Nullable <T extends PlayerDataModel> T getData(Class<T> classType){
+        Optional<PlayerDataModel> returnObject = data.stream().filter(classType::isInstance).findFirst();
+        return returnObject.map(classType::cast).orElse(null);
     }
 
-    public @NotNull <T> T getData(String key, T defaultValue, Class<T> classType){
-        return getDataOrDefault(key, defaultValue, classType);
-    }
+    public @NotNull <T extends PlayerDataModel> T getDataOrDefault(T defaultValue, Class<T> classType){
+        Optional<PlayerDataModel> returnObject = data.stream().filter(classType::isInstance).findFirst();
 
-    public @NotNull <T> T getDataOrDefault(String key, T defaultValue, Class<T> classType){
-        Object object = data.get(key);
-        if (object == null) return defaultValue;
-
-        T returnObject = castObjectToType(data.get(key), classType);
-        return returnObject != null ? returnObject : defaultValue;
+        if (returnObject.isEmpty()){
+            data.add(defaultValue);
+            return defaultValue;
+        } else {
+            return classType.cast(returnObject.get());
+        }
     }
 
     private @Nullable <T> T castObjectToType(Object object, Class<T> classType){
@@ -58,4 +64,16 @@ public class PlayerInfo {
         }
     }
 
+    public static Set<PlayerDataModel> getDefaultPlayerDataModel() {
+        return defaultPlayerDataModel;
+    }
+
+    public static void addDefaultPlayerDataModel(PlayerDataModel defaultPlayerDataModel) {
+        PlayerInfo.defaultPlayerDataModel.add(defaultPlayerDataModel);
+    }
+
+    public static void setDefaultPlayerDataModel(Set<PlayerDataModel> defaultPlayerDataModel) {
+        PlayerInfo.defaultPlayerDataModel.clear();
+        PlayerInfo.defaultPlayerDataModel.addAll(defaultPlayerDataModel);
+    }
 }

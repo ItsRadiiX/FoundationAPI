@@ -7,6 +7,7 @@ import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import nl.bryansuk.foundationapi.common.filemanager.FileManager;
 import nl.bryansuk.foundationapi.common.filemanager.converter.Converter;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -15,11 +16,11 @@ import java.util.Map;
 
 public class FileHandler<T> extends Handler {
 
-    private final Converter<T> converter;
-    private final TypeReference<T> typeReference = new TypeReference<>() {};
-    private volatile T object;
+    protected final Converter<T> converter;
+    protected final TypeReference<T> typeReference = new TypeReference<>() {};
+    protected volatile T object;
 
-    private final boolean defaultResource;
+    protected final boolean defaultResource;
     /**
      * Constructs a new FileHandler object with the specified file path and default resource flag.
      * Handler is initialized when constructor is called.
@@ -50,10 +51,7 @@ public class FileHandler<T> extends Handler {
      *
      * @return the object
      */
-    public T getObject() {
-        if (object == null){
-            object = read();
-        }
+    public @Nullable T getObject() {
         return object;
     }
 
@@ -61,7 +59,7 @@ public class FileHandler<T> extends Handler {
     public boolean onReload() {
         if (isNewVersionAvailable()){
             FileManager.getLogger().debug("Attempting to reload File: {}", getFile().getName());
-            read();
+            readAsync();
             FileManager.getInstance().callFileReloadEvent(getFile().getName());
             return true;
         }
@@ -69,6 +67,11 @@ public class FileHandler<T> extends Handler {
     }
 
     public void write(Object data){
+        if (data == null) {
+            FileManager.getLogger().error("Attempting to write null value to file: {}", getFile().getName());
+            return;
+        }
+
         try {
             converter.writeToFile(data, getFile());
         } catch (IOException e) {
@@ -76,6 +79,14 @@ public class FileHandler<T> extends Handler {
         } finally {
             updateLastModified();
         }
+    }
+
+    public void write(){
+        write(getObject());
+    }
+
+    public void writeAsync(){
+        FileManager.getExecutor().execute(this::write);
     }
 
     public T read(){
@@ -101,6 +112,10 @@ public class FileHandler<T> extends Handler {
             // Check if there's a previously loaded valid file
             return checkIfObjectExists(true);
         }
+    }
+
+    public void readAsync(){
+        FileManager.getExecutor().execute(this::read);
     }
 
     private T checkIfObjectExists(boolean fileExists) {

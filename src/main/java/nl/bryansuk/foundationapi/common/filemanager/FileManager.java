@@ -1,6 +1,7 @@
 package nl.bryansuk.foundationapi.common.filemanager;
 
 import nl.bryansuk.foundationapi.common.exceptions.FileManagerException;
+import nl.bryansuk.foundationapi.common.filemanager.handlers.FileHandler;
 import nl.bryansuk.foundationapi.common.filemanager.handlers.Handler;
 import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
 
@@ -8,16 +9,19 @@ import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.concurrent.*;
 
 public abstract class FileManager {
 
     protected static FileManager instance;
 
-    protected final FoundationLogger logger;
+    private static final ScheduledExecutorService executor = Executors.newScheduledThreadPool(4, Thread.ofVirtual().factory());
+    private static ScheduledFuture<?> scheduledAutoReloadTask;
+    protected static boolean startedAutoReloading = false;
 
     protected static final List<Handler> handlers = Collections.synchronizedList(new ArrayList<>());
-    protected static Runnable autoReloadTask;
-    protected static boolean startedAutoReloading = false;
+
+    protected final FoundationLogger logger;
 
     public abstract InputStream getDefaultResource(String path);
     public abstract void callFileReloadEvent(String fileName);
@@ -31,6 +35,17 @@ public abstract class FileManager {
         FileManager.instance = this;
 
         this.logger = logger;
+    }
+
+    public void shutdown() throws InterruptedException {
+        stopAutoReloading();
+        executor.shutdown();
+        executor.awaitTermination(5, TimeUnit.SECONDS);
+
+        for (Handler handler : handlers) {
+            if (handler instanceof FileHandler) ((FileHandler<?>) handler).write();
+            handler.destroy();
+        }
     }
 
     public static FileManager getInstance() {
@@ -58,7 +73,8 @@ public abstract class FileManager {
         }
 
         if (!startedAutoReloading) {
-            autoReloadTask = getAutoReloadTask(autoReloadManagerTime);
+            scheduledAutoReloadTask = executor.scheduleAtFixedRate(getAutoReloadTask(),
+                    autoReloadManagerTime, autoReloadManagerTime, TimeUnit.SECONDS);
             startedAutoReloading = true;
         }
         return true;
@@ -69,17 +85,18 @@ public abstract class FileManager {
      */
     public static void stopAutoReloading(){
         if (startedAutoReloading) {
-            if (autoReloadTask!= null) {
-                autoReloadTask = null;
+            if (scheduledAutoReloadTask!= null) {
+                scheduledAutoReloadTask.cancel(false);
+                scheduledAutoReloadTask = null;
             }
             startedAutoReloading = false;
         }
     }
 
-    public static Runnable getAutoReloadTask(int autoReloadManagerTime){
+    public static Runnable getAutoReloadTask(){
             return () -> {
                 for (Handler handler : getAutoReloadingHandlers()) {
-                    if (handler.onReload()) {
+                    if (handler instanceof FileHandler && handler.onReload()) {
                         getLogger().debug("Reloaded: {}", handler.getFile().getName());
                     }
                 }
@@ -108,6 +125,7 @@ public abstract class FileManager {
         return handlers;
     }
 
-
-
+    public static ExecutorService getExecutor() {
+        return executor;
+    }
 }

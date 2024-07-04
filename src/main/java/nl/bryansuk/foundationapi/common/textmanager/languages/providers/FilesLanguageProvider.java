@@ -14,10 +14,8 @@ public class FilesLanguageProvider implements LanguageProvider {
     private final FolderHandler<Map<String, Object>> locales;
 
     public FilesLanguageProvider(String folder) {
-        locales = new FolderHandler<>(folder, new YAMLConverter<>(),true);
+        locales = new FolderHandler<>(folder, new YAMLConverter<>(),true,true);
     }
-
-
 
     @Override
     public Map<Locale, Language> getLanguagesByLocale() {

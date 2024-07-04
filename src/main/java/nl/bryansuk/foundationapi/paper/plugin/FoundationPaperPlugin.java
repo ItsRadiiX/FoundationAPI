@@ -10,7 +10,9 @@ import nl.bryansuk.foundationapi.common.filemanager.FileManager;
 import nl.bryansuk.foundationapi.common.filemanager.converter.YAMLConverter;
 import nl.bryansuk.foundationapi.common.filemanager.handlers.ConfigurationHandler;
 import nl.bryansuk.foundationapi.common.filemanager.handlers.FileHandler;
+import nl.bryansuk.foundationapi.common.internalmessaging.InternalMessageManager;
 import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
+import nl.bryansuk.foundationapi.common.playerinfo.PlayerInfoManager;
 import nl.bryansuk.foundationapi.common.startup.LoadError;
 import nl.bryansuk.foundationapi.common.startup.PluginStartupData;
 import nl.bryansuk.foundationapi.common.startup.StartupTask;
@@ -41,8 +43,10 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
 
     private FileManager fileManager;
     private MessagesManager messagesManager;
+    private InternalMessageManager internalMessageManager;
     private ItemManager itemManager;
     private MenuManager menuManager;
+    private PlayerInfoManager playerInfoManager;
 
     private TextCreator textCreator;
 
@@ -71,6 +75,8 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
 
         startupData = new PluginStartupData();
         logger.setStartupData(startupData);
+
+        internalMessageManager = new InternalMessageManager(logger);
 
         messagesManager = new MessagesManager(logger,
                 new FilesLanguageProvider("locale"),
@@ -110,10 +116,7 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
                 .stream()
                 .filter(handler -> handler instanceof FileHandler<?>)
                 .map(handler -> (FileHandler<?>) handler)
-                .forEach(fileHandler -> {
-                    Object o = fileHandler.getObject();
-                    if (o != null) fileHandler.write(o);
-                });
+                .forEach(FileHandler::write);
     }
 
     private List<StartupTask> getSortedTasks(){
@@ -247,6 +250,14 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
 
     private double determineTimePassed(long start) {
         return ((System.nanoTime()-start)/1e6);
+    }
+
+    public InternalMessageManager getInternalMessageManager() {
+        return internalMessageManager;
+    }
+
+    public PlayerInfoManager getPlayerInfoManager() {
+        return playerInfoManager;
     }
 
     public static FoundationLogger getFoundationLogger() {
