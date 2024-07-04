@@ -54,6 +54,10 @@ public class FileHandler<T> extends Handler {
         return object;
     }
 
+    public void setObject(T object) {
+        this.object = object;
+    }
+
     @Override
     public boolean onReload() {
         if (isNewVersionAvailable()){
@@ -65,23 +69,14 @@ public class FileHandler<T> extends Handler {
         return false;
     }
 
-    public void write(Object data){
-        if (data == null) {
-            FileManager.getLogger().error("Attempting to write null value to file: {}", getFile().getName());
-            return;
-        }
-
+    public void write(){
         try {
-            converter.writeToFile(data, getFile());
+            converter.writeToFile(object, getFile());
         } catch (IOException e) {
             throw new RuntimeException(e);
         } finally {
             updateLastModified();
         }
-    }
-
-    public void write(){
-        write(getObject());
     }
 
     public void writeAsync(){
@@ -128,7 +123,7 @@ public class FileHandler<T> extends Handler {
                 T defaultContent = converter.readFromFile(FileManager.getInstance().getDefaultResource(getPath()), typeReference);
                 if (defaultContent != null) {
                     object = defaultContent;
-                    write(defaultContent); // Write default content to file
+                    write(); // Write default content to file
                     return defaultContent;
                 }
             } catch (IOException e) {
@@ -156,7 +151,7 @@ public class FileHandler<T> extends Handler {
             if (addMissingFields(defaultNode, (ObjectNode) fileNode)){
                 object = mapper.treeToValue(fileNode, typeReference);
             }
-            write(object);
+            write();
         }
         return object;
     }

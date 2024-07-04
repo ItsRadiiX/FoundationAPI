@@ -46,7 +46,8 @@ public class PlayerInfoFileProvider implements PlayerInfoProvider {
                     true,
                     true);
             playerInfoMap.put(playerInfo.getUuid(), playerInfoFileHandler);
-            playerInfoFileHandler.write(playerInfo);
+            playerInfoFileHandler.setObject(playerInfo);
+            playerInfoFileHandler.write();
         }
     }
 
