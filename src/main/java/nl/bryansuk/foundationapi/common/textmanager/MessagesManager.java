@@ -31,20 +31,21 @@ public class MessagesManager {
         MessagesManager.languages = provider.getLanguagesByLocale();
     }
 
-    public Component getMessage(Language language, String message) {
-        return TextCreator.create(getRawMessage(language, message));
+    public Component getMessage(Locale locale, String message) {
+        return TextCreator.create(getRawMessage(locale, message));
     }
 
-    public Component getMessage(Language language, String message, PlayerInfo player, TagResolver... tagResolvers) {
-        return TextCreator.create(getRawMessage(language, message), player, tagResolvers);
+    public Component getMessage(Locale locale, String message, PlayerInfo player, TagResolver... tagResolvers) {
+        return TextCreator.create(getRawMessage(locale, message), player, tagResolvers);
     }
 
-    public Component getMessage(Language language, String message, TagResolver... tagResolvers) {
-        return TextCreator.create(getRawMessage(language, message), null, tagResolvers);
+    public Component getMessage(Locale locale, String message, TagResolver... tagResolvers) {
+        return TextCreator.create(getRawMessage(locale, message), null, tagResolvers);
     }
 
-    public String getRawMessage(Language language, String message) {
+    public String getRawMessage(Locale locale, String message) {
         try {
+            Language language = languages.get(locale);
             Object object = language.messages().get(message);
             if (object == null) object = getLanguage(defaultLocale).messages().get(message);
             return parseObjectToString(object);
