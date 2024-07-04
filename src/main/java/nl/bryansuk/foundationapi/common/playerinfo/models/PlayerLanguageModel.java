@@ -18,21 +18,14 @@ public class PlayerLanguageModel extends PlayerDataModel {
     }
 
     public void setCurrentLocale(Locale newCurrentLocale) {
-        String oldLocale = currentLocale;
         currentLocale = newCurrentLocale.getLanguage();
     }
 
     public static @NotNull PlayerLanguageModel getFromPlayerInfo(PlayerInfo playerInfo) {
-        return playerInfo.getDataOrDefault(addDefaultToPlayerInfo(playerInfo), PlayerLanguageModel.class);
+        return playerInfo.getDataOrDefault(defaultModel(), PlayerLanguageModel.class);
     }
 
     public static @NotNull PlayerLanguageModel defaultModel() {
         return new PlayerLanguageModel(Locale.ENGLISH.getLanguage());
-    }
-
-    private static PlayerLanguageModel addDefaultToPlayerInfo(PlayerInfo playerInfo) {
-        PlayerLanguageModel languageModel = defaultModel();
-        playerInfo.setData(languageModel);
-        return languageModel;
     }
 }
