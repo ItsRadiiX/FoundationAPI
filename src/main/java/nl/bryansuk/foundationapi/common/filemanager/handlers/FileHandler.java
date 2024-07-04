@@ -42,7 +42,6 @@ public class FileHandler<T> extends Handler {
 
     @Override
     public void destroy(){
-        FileManager.removeHandler(this);
         this.object = null;
     }
 
@@ -127,9 +126,11 @@ public class FileHandler<T> extends Handler {
         if (defaultResource) {
             try {
                 T defaultContent = converter.readFromFile(FileManager.getInstance().getDefaultResource(getPath()), typeReference);
-                object = defaultContent;
-                write(defaultContent); // Write default content to file
-                return defaultContent;
+                if (defaultContent != null) {
+                    object = defaultContent;
+                    write(defaultContent); // Write default content to file
+                    return defaultContent;
+                }
             } catch (IOException e) {
                 FileManager.getLogger().error(e,"<red>Cannot load file {0}", getPath());
             }
