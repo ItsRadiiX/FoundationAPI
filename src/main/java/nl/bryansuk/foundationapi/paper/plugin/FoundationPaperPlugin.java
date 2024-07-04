@@ -13,6 +13,7 @@ import nl.bryansuk.foundationapi.common.filemanager.handlers.FileHandler;
 import nl.bryansuk.foundationapi.common.internalmessaging.InternalMessageManager;
 import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
 import nl.bryansuk.foundationapi.common.playerinfo.PlayerInfoManager;
+import nl.bryansuk.foundationapi.common.playerinfo.providers.PlayerInfoFileProvider;
 import nl.bryansuk.foundationapi.common.startup.LoadError;
 import nl.bryansuk.foundationapi.common.startup.PluginStartupData;
 import nl.bryansuk.foundationapi.common.startup.StartupTask;
@@ -23,6 +24,7 @@ import nl.bryansuk.foundationapi.paper.components.FoundationPaperComponent;
 import nl.bryansuk.foundationapi.paper.filemanager.PaperFileManager;
 import nl.bryansuk.foundationapi.paper.itemmanager.ItemManager;
 import nl.bryansuk.foundationapi.paper.menumanager.MenuManager;
+import nl.bryansuk.foundationapi.paper.playerinfo.PlayerInfoListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -136,11 +138,20 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     private List<StartupTask> getDefaultStartupTasks() {
         List<StartupTask> tasks = new ArrayList<>();
 
-        tasks.add(new StartupTask(1,"Loading Dependencies...", "All Dependencies have been initialized!", this::checkDependencies));
+        tasks.add(new StartupTask(1,"Loading Dependencies...",
+                "All Dependencies have been initialized!", this::checkDependencies));
         tasks.add(new StartupTask(2, this::didDependenciesLoad));
 
-        tasks.add(new StartupTask(10, "Loading Components...", "All Components have been initialized!", this::enableComponents));
-        tasks.add(new StartupTask(15, "Loading Commands...", "All Command have been initialized!", this::loadCommands));
+        tasks.add(new StartupTask(10, "Loading Components...",
+                "All Components have been initialized!", this::enableComponents));
+        tasks.add(new StartupTask(15, "Loading Commands...",
+                "All Command have been initialized!", this::loadCommands));
+        tasks.add(new StartupTask(20, "Loading PlayerInfo...",
+                "All PlayerInfo have been loaded!",
+                () -> {
+                    playerInfoManager = new PlayerInfoManager(new PlayerInfoFileProvider("players"));
+                    getServer().getPluginManager().registerEvents(new PlayerInfoListener(), this);
+                }));
         return tasks;
     }
 
@@ -175,7 +186,8 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
             if (!dependencyFound && (!isSoftDependency || startupData.getStartupShowSoftDependencyNotFound())) {
                 logDependencyStatus(dependency.getName(), false);
                 if (!isSoftDependency) {
-                    startupData.addLoadError(new LoadError(LoadError.Level.CRITICAL, "Could not find dependency " + dependency.getName()));
+                    startupData.addLoadError(new LoadError(LoadError.Level.CRITICAL,
+                            "Could not find dependency " + dependency.getName()));
                 }
             } else {
                 logDependencyStatus(dependency.getName(), true);

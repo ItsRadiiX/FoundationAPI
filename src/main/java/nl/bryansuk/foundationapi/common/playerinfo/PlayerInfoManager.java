@@ -29,6 +29,10 @@ public class PlayerInfoManager {
         provider.removePlayer(uuid);
     }
 
+    public boolean hasPlayerInfo(UUID uuid){
+        return provider.containsPlayer(uuid);
+    }
+
     public @Nullable PlayerInfo getPlayerInfo(UUID uuid){
         return provider.getPlayerInfo(uuid);
     }

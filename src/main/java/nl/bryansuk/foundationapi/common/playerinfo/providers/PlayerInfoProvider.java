@@ -12,6 +12,7 @@ public interface PlayerInfoProvider {
     void addPlayer(@NotNull PlayerInfo playerInfo);
     void addPlayer(@NotNull UUID uuid);
     void removePlayer(@Nullable UUID uuid);
+    boolean containsPlayer(@NotNull UUID uuid);
     @Nullable PlayerInfo getPlayerInfo(@Nullable UUID uuid);
     void savePlayerInfo(PlayerInfo playerInfo);
     void saveAllPlayerInfo();

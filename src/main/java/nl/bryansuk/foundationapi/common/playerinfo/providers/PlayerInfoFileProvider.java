@@ -64,6 +64,11 @@ public class PlayerInfoFileProvider implements PlayerInfoProvider {
     }
 
     @Override
+    public boolean containsPlayer(@NotNull UUID uuid) {
+        return playerInfoMap.containsKey(uuid);
+    }
+
+    @Override
     public @Nullable PlayerInfo getPlayerInfo(@Nullable UUID uuid) {
         if (uuid == null || !playerInfoMap.containsKey(uuid)) return null;
         return playerInfoMap.get(uuid).getObject();
