@@ -20,6 +20,7 @@ public class PlayerInfoFileProvider implements PlayerInfoProvider {
     public PlayerInfoFileProvider(String folderPath) {
         this.playerInfoFolderHandler = new FolderHandler<>(folderPath, new YAMLConverter<>(), false, true);
         this.folderPath = folderPath;
+        setup();
     }
 
     private void setup(){
