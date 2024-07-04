@@ -58,9 +58,9 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     protected abstract List<FoundationPaperComponent> getComponents();
     protected abstract List<StartupTask> startupTasks();
 
-    protected abstract void onPluginLoad();
-    protected abstract void onPluginEnable();
-    protected abstract void onPluginDisable();
+    protected abstract void onPluginLoad() throws Throwable;
+    protected abstract void onPluginEnable() throws Throwable;
+    protected abstract void onPluginDisable() throws Throwable;
 
     @Override
     public void onLoad() {
@@ -82,7 +82,11 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
                 new FilesLanguageProvider("locale"),
                 Locale.of(foundationConfiguration.getString("defaultLocale", Locale.ENGLISH.getLanguage())));
 
-        onPluginLoad();
+        try {
+            onPluginLoad();
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
     }
 
     @Override
@@ -97,26 +101,26 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
         printStartupInfo();
 
         getSortedTasks().forEach(StartupTask::run);
-        
-        onPluginEnable();
+
+        try {
+            onPluginEnable();
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
 
         finishSetup();
     }
 
     @Override
     public void onDisable() {
-        onPluginDisable();
+        try {
+            onPluginDisable();
+        } catch (Throwable e) {
+            throw new RuntimeException(e);
+        }
 
-        saveAllFiles();
+        fileManager.shutdown();
         disableComponents();
-    }
-
-    private void saveAllFiles() {
-        FileManager.getHandlers()
-                .stream()
-                .filter(handler -> handler instanceof FileHandler<?>)
-                .map(handler -> (FileHandler<?>) handler)
-                .forEach(FileHandler::write);
     }
 
     private List<StartupTask> getSortedTasks(){

@@ -37,10 +37,15 @@ public abstract class FileManager {
         this.logger = logger;
     }
 
-    public void shutdown() throws InterruptedException {
+    public void shutdown() {
         stopAutoReloading();
         executor.shutdown();
-        executor.awaitTermination(5, TimeUnit.SECONDS);
+
+        try {
+            executor.awaitTermination(5, TimeUnit.SECONDS);
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
 
         for (Handler handler : handlers) {
             if (handler instanceof FileHandler) ((FileHandler<?>) handler).write();
