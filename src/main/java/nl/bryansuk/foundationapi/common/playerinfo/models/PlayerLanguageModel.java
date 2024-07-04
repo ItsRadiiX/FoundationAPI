@@ -9,10 +9,6 @@ import java.util.Locale;
 public class PlayerLanguageModel extends PlayerDataModel {
     private String currentLocale;
 
-    static {
-        PlayerInfo.addDefaultPlayerDataModel(defaultModel());
-    }
-
     public PlayerLanguageModel(@JsonProperty("currentLocale") String currentLocale) {
         this.currentLocale = currentLocale;
     }
@@ -27,10 +23,16 @@ public class PlayerLanguageModel extends PlayerDataModel {
     }
 
     public static @NotNull PlayerLanguageModel getFromPlayerInfo(PlayerInfo playerInfo) {
-        return playerInfo.getDataOrDefault(defaultModel(), PlayerLanguageModel.class);
+        return playerInfo.getDataOrDefault(addDefaultToPlayerInfo(playerInfo), PlayerLanguageModel.class);
     }
 
     public static @NotNull PlayerLanguageModel defaultModel() {
         return new PlayerLanguageModel(Locale.ENGLISH.getLanguage());
+    }
+
+    private static PlayerLanguageModel addDefaultToPlayerInfo(PlayerInfo playerInfo) {
+        PlayerLanguageModel languageModel = defaultModel();
+        playerInfo.setData(languageModel);
+        return languageModel;
     }
 }
