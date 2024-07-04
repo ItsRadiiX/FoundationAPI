@@ -256,7 +256,7 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
             Bukkit.getScheduler().runTaskAsynchronously(this , () -> Bukkit.getPluginManager().disablePlugin(this));
         } else {
             logger.startupDebug("<gray>");
-            logger.startupDebug("&6" + getPluginMeta().getName() + "<gray> has loaded with " + startupData.getLoadErrors() + "<gray> error(s)!");
+            logger.startupDebug("<gold>" + getPluginMeta().getName() + "<gray> has loaded with " + startupData.getLoadErrors() + "<gray> error(s)!");
             logger.startupDebug("<gray>Took: " + determineTimePassed(startTime) + "ms to start plugin. <green>=)");
             logger.startupDebug("<gray>()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
             logger.startupDebug("");

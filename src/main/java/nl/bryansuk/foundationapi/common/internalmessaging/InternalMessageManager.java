@@ -17,7 +17,7 @@ public class InternalMessageManager {
     protected FoundationLogger logger;
 
     public InternalMessageManager(FoundationLogger logger) {
-        if (instance == null) throw new InternalMessageException("InternalMessageManager is already instantiated");
+        if (instance != null) throw new InternalMessageException("InternalMessageManager is already instantiated");
         this.logger = logger;
         instance = this;
     }
