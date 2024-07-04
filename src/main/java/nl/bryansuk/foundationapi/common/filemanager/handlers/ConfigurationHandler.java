@@ -4,21 +4,20 @@ import nl.bryansuk.foundationapi.common.filemanager.converter.Converter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
-public class ConfigurationHandler {
-    protected final FileHandler<Map<String,Object>> configFileHandler;
+public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
 
     /**
      * Default constructor for Config.
      */
     public ConfigurationHandler(String path, Converter<Map<String, Object>> converter, boolean defaultResource, boolean isAutoReloading) {
-        configFileHandler = new FileHandler<>(path, converter, defaultResource, isAutoReloading);
-        configFileHandler.read();
-
+        super(path, converter, defaultResource, isAutoReloading);
+        read();
         checkIfAutoReloading();
     }
 
@@ -31,10 +30,6 @@ public class ConfigurationHandler {
      */
     public ConfigurationHandler(String path, Converter<Map<String,Object>> converter) {
         this(path, converter, false, false);
-    }
-
-    public String getPath(){
-        return configFileHandler.getPath();
     }
 
     /**
@@ -86,6 +81,19 @@ public class ConfigurationHandler {
     }
 
     /**
+     * Gets the object.
+     *
+     * @return the object
+     */
+    @Override
+    public @Nullable Map<String,Object> getObject() {
+        if (object == null){
+            object = new HashMap<>();
+        };
+        return object;
+    }
+
+    /**
      * Retrieves the value associated with the specified key from the configuration.
      *
      * @param key The key to look up in the configuration.
@@ -95,7 +103,7 @@ public class ConfigurationHandler {
         Object object = get(key);
 
         if (object == null){
-            Map<String,Object> map = configFileHandler.getObject();
+            Map<String,Object> map = getObject();
             if (map != null) {
                 map.put(key, defaultObject);
             }
@@ -353,7 +361,7 @@ public class ConfigurationHandler {
 
 
     public @Nullable Map<String, ?> getConfiguration(){
-        return configFileHandler.getObject();
+        return getObject();
     }
 
     public @Nullable Map<String, String> getConfigurationAsStringMap(){
@@ -368,10 +376,6 @@ public class ConfigurationHandler {
     private void checkIfAutoReloading(){
         Boolean autoReload = getBoolean("autoReload");
         if (autoReload == null) return;
-        configFileHandler.setAutoReloading(autoReload);
-    }
-
-    public FileHandler<Map<String, Object>> getConfigFileHandler() {
-        return configFileHandler;
+        setAutoReloading(autoReload);
     }
 }

@@ -46,7 +46,7 @@ public abstract class FileManager {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
+        
         for (Handler handler : handlers) {
             if (handler instanceof FileHandler) ((FileHandler<?>) handler).write();
             handler.destroy();
