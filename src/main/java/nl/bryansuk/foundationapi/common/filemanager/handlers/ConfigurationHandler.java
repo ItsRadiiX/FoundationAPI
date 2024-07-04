@@ -1,5 +1,7 @@
 package nl.bryansuk.foundationapi.common.filemanager.handlers;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.google.common.reflect.TypeToken;
 import nl.bryansuk.foundationapi.common.filemanager.converter.Converter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -99,8 +101,9 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
      * @param key The key to look up in the configuration.
      * @return The value associated with the specified key.
      */
-    public @NotNull Object getObject(String key, @NotNull Object defaultObject) {
-        Object object = get(key);
+    public @NotNull <T> T getObject(String key, @NotNull T defaultObject) {
+        TypeToken<T> typeToken = new TypeToken<>(defaultObject.getClass()) {};
+        T object = castObjectToType(get(key), (Class<T>) typeToken.getRawType());
 
         if (object == null){
             Map<String,Object> map = getObject();
@@ -138,7 +141,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
      * @return The String value associated with the specified key.
      */
     public @NotNull String getText(String key, @NotNull String defaultValue){
-        return (get(key) instanceof String string) ? string : defaultValue;
+        return getObject(key, defaultValue);
     }
 
     /**
@@ -158,7 +161,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
      * @return The Number value associated with the specified key.
      */
     public @NotNull Number getNumber(String key, @NotNull Number defaultValue){
-        return (get(key) instanceof Number number) ? number : defaultValue;
+        return getObject(key, defaultValue);
     }
 
     /**
@@ -178,7 +181,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
      * @return The Number value associated with the specified key.
      */
     public @NotNull Integer getInteger(String key, int defaultValue){
-        return (get(key) instanceof Integer number) ? number : defaultValue;
+        return getObject(key, defaultValue);
     }
 
     /**
@@ -198,7 +201,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
      * @return The Number value associated with the specified key.
      */
     public @NotNull Double getDouble(String key, double defaultValue){
-        return (get(key) instanceof Double number) ? number : defaultValue;
+        return getObject(key, defaultValue);
     }
 
     /**
@@ -218,7 +221,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
      * @return The Number value associated with the specified key.
      */
     public @NotNull Long getLong(String key, long defaultValue){
-        return (get(key) instanceof Long number) ? number : defaultValue;
+        return getObject(key, defaultValue);
     }
 
     /**
@@ -238,7 +241,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
      * @return The Number value associated with the specified key.
      */
     public @NotNull Short getShort(String key, short defaultValue){
-        return (get(key) instanceof Short number) ? number : defaultValue;
+        return getObject(key, defaultValue);
     }
 
     /**
@@ -258,7 +261,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
      * @return The Number value associated with the specified key.
      */
     public @NotNull Byte getByte(String key, byte defaultValue){
-        return (get(key) instanceof Byte number) ? number : defaultValue;
+        return getObject(key, defaultValue);
     }
 
     /**
@@ -278,7 +281,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
      * @return The Number value associated with the specified key.
      */
     public @NotNull Float getFloat(String key, float defaultValue){
-        return (get(key) instanceof Float number) ? number : defaultValue;
+        return getObject(key, defaultValue);
     }
 
     /**
@@ -299,7 +302,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
      * @return The boolean value associated with the specified key.
      */
     public @NotNull Boolean getBoolean(String key, @NotNull Boolean defaultValue) {
-        return (get(key) instanceof Boolean bool) ? bool : defaultValue;
+        return getObject(key, defaultValue);
     }
 
     public @Nullable List<?> getList(String key){
@@ -307,7 +310,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
     }
 
     public @NotNull List<?> getList(String key, @NotNull List<?> defaultList){
-        return (get(key, defaultList) instanceof List<?> list) ? list : defaultList;
+        return getObject(key, defaultList);
     }
 
     public @Nullable List<String> getStringList(String key){
@@ -347,7 +350,7 @@ public class ConfigurationHandler extends FileHandler<Map<String,Object>> {
     }
 
     public @NotNull Map<?, ?> getMap(String key, @NotNull Map<?, ?> defaultMap){
-        return (get(key, defaultMap) instanceof Map<?,?> map) ? map : defaultMap;
+        return getObject(key, defaultMap);
     }
 
     public @Nullable Map<String, ?> getSection(String key){
