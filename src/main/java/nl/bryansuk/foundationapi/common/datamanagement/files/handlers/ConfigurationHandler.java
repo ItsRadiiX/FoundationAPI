@@ -1,8 +1,7 @@
-package nl.bryansuk.foundationapi.common.filemanager.handlers;
+package nl.bryansuk.foundationapi.common.datamanagement.files.handlers;
 
-import com.fasterxml.jackson.core.type.TypeReference;
 import com.google.common.reflect.TypeToken;
-import nl.bryansuk.foundationapi.common.filemanager.converter.Converter;
+import nl.bryansuk.foundationapi.common.datamanagement.files.converter.Converter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

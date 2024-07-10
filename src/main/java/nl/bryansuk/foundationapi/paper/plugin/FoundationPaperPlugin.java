@@ -3,17 +3,15 @@ package nl.bryansuk.foundationapi.paper.plugin;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
+import nl.bryansuk.foundationapi.common.datamanagement.database.DatabaseManager;
 import nl.bryansuk.foundationapi.common.dependencies.Dependency;
 import nl.bryansuk.foundationapi.common.dependencies.HardDependency;
 import nl.bryansuk.foundationapi.common.dependencies.SoftDependency;
-import nl.bryansuk.foundationapi.common.filemanager.FileManager;
-import nl.bryansuk.foundationapi.common.filemanager.converter.YAMLConverter;
-import nl.bryansuk.foundationapi.common.filemanager.handlers.ConfigurationHandler;
-import nl.bryansuk.foundationapi.common.filemanager.handlers.FileHandler;
+import nl.bryansuk.foundationapi.common.datamanagement.files.FileManager;
+import nl.bryansuk.foundationapi.common.datamanagement.files.converter.YAMLConverter;
+import nl.bryansuk.foundationapi.common.datamanagement.files.handlers.ConfigurationHandler;
 import nl.bryansuk.foundationapi.common.internalmessaging.InternalMessageManager;
 import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
-import nl.bryansuk.foundationapi.common.playerinfo.PlayerInfoManager;
-import nl.bryansuk.foundationapi.common.playerinfo.providers.PlayerInfoFileProvider;
 import nl.bryansuk.foundationapi.common.startup.LoadError;
 import nl.bryansuk.foundationapi.common.startup.PluginStartupData;
 import nl.bryansuk.foundationapi.common.startup.StartupTask;
@@ -24,7 +22,6 @@ import nl.bryansuk.foundationapi.paper.components.FoundationPaperComponent;
 import nl.bryansuk.foundationapi.paper.filemanager.PaperFileManager;
 import nl.bryansuk.foundationapi.paper.itemmanager.ItemManager;
 import nl.bryansuk.foundationapi.paper.menumanager.MenuManager;
-import nl.bryansuk.foundationapi.paper.playerinfo.PlayerInfoListener;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -44,13 +41,16 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     private ConfigurationHandler foundationConfiguration;
 
     private FileManager fileManager;
+    private DatabaseManager databaseManager;
+
     private MessagesManager messagesManager;
     private InternalMessageManager internalMessageManager;
     private ItemManager itemManager;
     private MenuManager menuManager;
-    private PlayerInfoManager playerInfoManager;
 
     private TextCreator textCreator;
+
+
 
     private boolean dependenciesLoaded;
     private long startTime ;
@@ -70,6 +70,9 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
         logger = new FoundationLogger(getComponentLogger());
 
         fileManager = new PaperFileManager(this, logger);
+        databaseManager = new DatabaseManager();
+        databaseManager.onEnable(getDataFolder() + "/hibernate.properties");
+
         foundationConfiguration = new ConfigurationHandler("configuration/main_config.yml",
                 new YAMLConverter<>(),
                 true,
@@ -146,12 +149,6 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
                 "All Components have been initialized!", this::enableComponents));
         tasks.add(new StartupTask(15, "Loading Commands...",
                 "All Command have been initialized!", this::loadCommands));
-        tasks.add(new StartupTask(20, "Loading PlayerInfo...",
-                "All PlayerInfo have been loaded!",
-                () -> {
-                    playerInfoManager = new PlayerInfoManager(new PlayerInfoFileProvider("players"));
-                    getServer().getPluginManager().registerEvents(new PlayerInfoListener(), this);
-                }));
         return tasks;
     }
 
@@ -270,10 +267,6 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
 
     public InternalMessageManager getInternalMessageManager() {
         return internalMessageManager;
-    }
-
-    public PlayerInfoManager getPlayerInfoManager() {
-        return playerInfoManager;
     }
 
     public static FoundationLogger getFoundationLogger() {

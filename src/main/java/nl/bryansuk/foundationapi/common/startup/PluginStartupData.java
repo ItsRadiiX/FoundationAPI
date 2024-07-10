@@ -1,7 +1,7 @@
 package nl.bryansuk.foundationapi.common.startup;
 
-import nl.bryansuk.foundationapi.common.filemanager.converter.YAMLConverter;
-import nl.bryansuk.foundationapi.common.filemanager.handlers.ConfigurationHandler;
+import nl.bryansuk.foundationapi.common.datamanagement.files.converter.YAMLConverter;
+import nl.bryansuk.foundationapi.common.datamanagement.files.handlers.ConfigurationHandler;
 
 import java.util.ArrayList;
 import java.util.List;

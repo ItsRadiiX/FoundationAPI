@@ -1,6 +1,6 @@
 package nl.bryansuk.foundationapi.common.textmanager.languages.providers;
-import nl.bryansuk.foundationapi.common.filemanager.converter.YAMLConverter;
-import nl.bryansuk.foundationapi.common.filemanager.handlers.FolderHandler;
+import nl.bryansuk.foundationapi.common.datamanagement.files.converter.YAMLConverter;
+import nl.bryansuk.foundationapi.common.datamanagement.files.handlers.FolderHandler;
 import nl.bryansuk.foundationapi.common.textmanager.MessagesManager;
 import nl.bryansuk.foundationapi.common.textmanager.TextCreator;
 import nl.bryansuk.foundationapi.common.textmanager.languages.Language;

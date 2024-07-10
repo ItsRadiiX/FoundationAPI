@@ -1,7 +1,7 @@
 package nl.bryansuk.foundationapi.velocity.filemanager;
 
 import com.velocitypowered.api.proxy.ProxyServer;
-import nl.bryansuk.foundationapi.common.filemanager.FileManager;
+import nl.bryansuk.foundationapi.common.datamanagement.files.FileManager;
 import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
 import nl.bryansuk.foundationapi.velocity.events.FileReloadEvent;
 import nl.bryansuk.foundationapi.velocity.events.FolderReloadEvent;

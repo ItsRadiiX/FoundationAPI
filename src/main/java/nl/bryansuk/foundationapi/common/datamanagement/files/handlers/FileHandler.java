@@ -1,12 +1,12 @@
-package nl.bryansuk.foundationapi.common.filemanager.handlers;
+package nl.bryansuk.foundationapi.common.datamanagement.files.handlers;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.NullNode;
 import com.fasterxml.jackson.databind.node.ObjectNode;
-import nl.bryansuk.foundationapi.common.filemanager.FileManager;
-import nl.bryansuk.foundationapi.common.filemanager.converter.Converter;
+import nl.bryansuk.foundationapi.common.datamanagement.files.FileManager;
+import nl.bryansuk.foundationapi.common.datamanagement.files.converter.Converter;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.FileInputStream;

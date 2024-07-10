@@ -1,21 +1,19 @@
-package nl.bryansuk.foundationapi.common.filemanager.converter;
+package nl.bryansuk.foundationapi.common.datamanagement.files.converter;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class YAMLConverter<T> implements Converter<T>{
+public class JSONConverter<T> implements Converter<T> {
 
-    private static final ObjectMapper mapper = initializeYAMLMapper();
+    private static final ObjectMapper mapper = initializeJSONMapper();
 
-    private static ObjectMapper initializeYAMLMapper(){
-        YAMLFactory yamlFactory = new YAMLFactory();
-        ObjectMapper mapper = new ObjectMapper(yamlFactory);
+    private static ObjectMapper initializeJSONMapper(){
+        ObjectMapper mapper = new ObjectMapper();
         mapper.enable(SerializationFeature.INDENT_OUTPUT);
         return mapper;
     }

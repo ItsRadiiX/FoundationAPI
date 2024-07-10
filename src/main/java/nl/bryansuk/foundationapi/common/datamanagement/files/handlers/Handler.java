@@ -1,6 +1,6 @@
-package nl.bryansuk.foundationapi.common.filemanager.handlers;
+package nl.bryansuk.foundationapi.common.datamanagement.files.handlers;
 
-import nl.bryansuk.foundationapi.common.filemanager.FileManager;
+import nl.bryansuk.foundationapi.common.datamanagement.files.FileManager;
 
 import java.io.File;
 

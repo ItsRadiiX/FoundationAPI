@@ -1,6 +1,6 @@
-package nl.bryansuk.foundationapi.common.filemanager.handlers;
+package nl.bryansuk.foundationapi.common.datamanagement.files.handlers;
 
-import nl.bryansuk.foundationapi.common.filemanager.converter.Converter;
+import nl.bryansuk.foundationapi.common.datamanagement.files.converter.Converter;
 
 import java.io.File;
 import java.util.ArrayList;

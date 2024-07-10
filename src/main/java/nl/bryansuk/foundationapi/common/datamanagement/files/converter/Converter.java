@@ -1,4 +1,4 @@
-package nl.bryansuk.foundationapi.common.filemanager.converter;
+package nl.bryansuk.foundationapi.common.datamanagement.files.converter;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;

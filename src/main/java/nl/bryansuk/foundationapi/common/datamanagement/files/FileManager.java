@@ -1,8 +1,8 @@
-package nl.bryansuk.foundationapi.common.filemanager;
+package nl.bryansuk.foundationapi.common.datamanagement.files;
 
 import nl.bryansuk.foundationapi.common.exceptions.FileManagerException;
-import nl.bryansuk.foundationapi.common.filemanager.handlers.FileHandler;
-import nl.bryansuk.foundationapi.common.filemanager.handlers.Handler;
+import nl.bryansuk.foundationapi.common.datamanagement.files.handlers.FileHandler;
+import nl.bryansuk.foundationapi.common.datamanagement.files.handlers.Handler;
 import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
 
 import java.io.InputStream;

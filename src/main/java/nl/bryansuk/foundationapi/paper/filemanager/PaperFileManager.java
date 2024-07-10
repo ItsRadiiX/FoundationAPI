@@ -1,12 +1,9 @@
 package nl.bryansuk.foundationapi.paper.filemanager;
 
-import nl.bryansuk.foundationapi.common.filemanager.FileManager;
+import nl.bryansuk.foundationapi.common.datamanagement.files.FileManager;
 import nl.bryansuk.foundationapi.common.logging.FoundationLogger;
 import nl.bryansuk.foundationapi.paper.events.FileReloadEvent;
 import nl.bryansuk.foundationapi.paper.events.FolderReloadEvent;
-import org.apache.logging.log4j.Logger;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.InputStream;
