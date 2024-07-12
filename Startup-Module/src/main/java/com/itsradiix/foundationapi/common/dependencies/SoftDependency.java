@@ -1,0 +1,28 @@
+package com.itsradiix.foundationapi.common.dependencies;
+
+import com.itsradiix.foundationapi.common.startup.LoadError;
+import com.itsradiix.foundationapi.common.startup.PluginStartupData;
+
+import java.lang.reflect.InvocationTargetException;
+
+public record SoftDependency<T>(String name, Class<T> classType) implements Dependency<T> {
+
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public T createInstance() {
+        try {
+            return classType.getConstructor().newInstance();
+        } catch (InstantiationException |
+                 IllegalAccessException |
+                 NoSuchMethodException |
+                 InvocationTargetException e) {
+            PluginStartupData.getInstance().addLoadError(new LoadError(LoadError.Level.RISK, "Unable to load dependency: " + name));
+            return null;
+        }
+    }
+
+}
