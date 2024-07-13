@@ -1,22 +1,16 @@
 package com.itsradiix.foundationapi.paper.plugin;
 
-import com.itsradiix.foundationapi.common.datamanagement.database.DatabaseManager;
 import com.itsradiix.foundationapi.common.datamanagement.files.FileManager;
-import com.itsradiix.foundationapi.common.datamanagement.files.converter.YAMLConverter;
 import com.itsradiix.foundationapi.common.datamanagement.files.handlers.ConfigurationHandler;
 import com.itsradiix.foundationapi.common.dependencies.Dependency;
 import com.itsradiix.foundationapi.common.dependencies.HardDependency;
 import com.itsradiix.foundationapi.common.dependencies.SoftDependency;
-import com.itsradiix.foundationapi.common.internalmessaging.InternalMessageManager;
+import com.itsradiix.foundationapi.common.manager.CommonManager;
 import com.itsradiix.foundationapi.common.startup.LoadError;
-import com.itsradiix.foundationapi.common.startup.PluginStartupData;
+import com.itsradiix.foundationapi.common.startup.StartupDataManager;
 import com.itsradiix.foundationapi.common.startup.StartupTask;
-import com.itsradiix.foundationapi.common.textmanager.MessagesManager;
 import com.itsradiix.foundationapi.common.textmanager.TextCreator;
-import com.itsradiix.foundationapi.common.textmanager.languages.providers.FilesLanguageProvider;
 import com.itsradiix.foundationapi.paper.filemanager.PaperFileManager;
-import com.itsradiix.foundationapi.paper.itemmanager.ItemManager;
-import com.itsradiix.foundationapi.paper.menumanager.MenuManager;
 import io.papermc.paper.command.brigadier.Commands;
 import io.papermc.paper.plugin.lifecycle.event.LifecycleEventManager;
 import io.papermc.paper.plugin.lifecycle.event.types.LifecycleEvents;
@@ -27,30 +21,21 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 
 @SuppressWarnings({"unused", "UnstableApiUsage"})
 public abstract class FoundationPaperPlugin extends JavaPlugin {
 
     private static FoundationPaperPlugin instance;
 
-    private PluginStartupData startupData;
-    private ConfigurationHandler foundationConfiguration;
+    protected FileManager fileManager;
+    protected StartupDataManager startupDataManager;
+    protected ConfigurationHandler foundationConfiguration;
 
-    private FileManager fileManager;
-    private DatabaseManager databaseManager;
-
-    private MessagesManager messagesManager;
-    private InternalMessageManager internalMessageManager;
-    private ItemManager itemManager;
-    private MenuManager menuManager;
-
-    private TextCreator textCreator;
-
-    private boolean dependenciesLoaded;
-    private long startTime ;
+    protected boolean dependenciesLoaded;
+    protected long startTime ;
 
     protected abstract List<Dependency<?>> getDependencies();
+    protected abstract List<CommonManager> getManagers();
     protected abstract List<FoundationPaperComponent> getComponents();
     protected abstract List<StartupTask> startupTasks();
 
@@ -61,23 +46,8 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
-        fileManager = new PaperFileManager(this);
 
-        databaseManager = new DatabaseManager();
-        databaseManager.onEnable(getDataFolder() + "/hibernate.properties");
-
-        foundationConfiguration = new ConfigurationHandler("configuration/main_config.yml",
-                new YAMLConverter<>(),
-                true,
-                true);
-
-        startupData = new PluginStartupData(getComponentLogger());
-
-        internalMessageManager = new InternalMessageManager(getComponentLogger());
-
-        messagesManager = new MessagesManager(getComponentLogger(),
-                new FilesLanguageProvider("locale"),
-                Locale.of(foundationConfiguration.getString("defaultLocale", Locale.ENGLISH.getLanguage())));
+        getSortedCommonManager().forEach(CommonManager::onLoad);
 
         try {
             onPluginLoad();
@@ -92,8 +62,7 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
 
         FoundationPaperServer.setServer(getServer());
 
-        itemManager = new ItemManager(this);
-        menuManager = new MenuManager(this);
+        getSortedCommonManager().forEach(CommonManager::onEnable);
 
         printStartupInfo();
 
@@ -116,8 +85,23 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
             throw new RuntimeException(e);
         }
 
-        fileManager.shutdown();
         disableComponents();
+        getSortedCommonManager().forEach(CommonManager::onDisable);
+    }
+
+    private List<CommonManager> sortedCommonManagers;
+    private List<CommonManager> getSortedCommonManager(){
+        if(sortedCommonManagers == null) {
+            sortedCommonManagers = new ArrayList<>();
+
+            fileManager = new PaperFileManager(this);
+            startupDataManager = new StartupDataManager(getComponentLogger());
+
+            sortedCommonManagers.add(fileManager);
+            sortedCommonManagers.add(startupDataManager);
+            sortedCommonManagers.addAll(getManagers());
+        }
+        return sortedCommonManagers;
     }
 
     private List<StartupTask> getSortedTasks(){
@@ -145,7 +129,7 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     }
 
     private void didDependenciesLoad(){
-        if (!dependenciesLoaded && startupData.getCriticalLoadErrorsAmount() > 0){
+        if (!dependenciesLoaded && startupDataManager.getCriticalLoadErrorsAmount() > 0){
             determineErrors(startTime);
         }
     }
@@ -172,10 +156,10 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
             boolean dependencyFound = Bukkit.getPluginManager().getPlugin(dependency.getName()) != null;
             boolean isSoftDependency = dependency instanceof SoftDependency;
 
-            if (!dependencyFound && (!isSoftDependency || startupData.getStartupShowSoftDependencyNotFound())) {
+            if (!dependencyFound && (!isSoftDependency || startupDataManager.getStartupShowSoftDependencyNotFound())) {
                 logDependencyStatus(dependency.getName(), false);
                 if (!isSoftDependency) {
-                    startupData.addLoadError(new LoadError(LoadError.Level.CRITICAL,
+                    startupDataManager.addLoadError(new LoadError(LoadError.Level.CRITICAL,
                             "Could not find dependency " + dependency.getName()));
                 }
             } else {
@@ -210,7 +194,7 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
         printLogo(getLogo());
         startupDebug("");
         startupDebug("Version: " + getPluginMeta().getVersion());
-        if (startupData.getStartupPromoteAuthor()) startupDebug("Author(s): " + getPluginMeta().getAuthors());
+        if (startupDataManager.getStartupPromoteAuthor()) startupDebug("Author(s): " + getPluginMeta().getAuthors());
         startupDebug("Server Version " + getServer().getMinecraftVersion());
         startupDebug("<gray>()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
         startupDebug("");
@@ -222,7 +206,7 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     }
 
     private List<String> getLogo(){
-        return startupData.getLogo();
+        return startupDataManager.getLogo();
     }
 
     public void finishSetup(){
@@ -234,9 +218,9 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     }
 
     public void determineErrors(long startTime){
-        if (startupData.getCriticalLoadErrorsAmount() > 0){
+        if (startupDataManager.getCriticalLoadErrorsAmount() > 0){
             startupDebug("");
-            startupDebug("<gold>" + getPluginMeta().getName() + "<gray> could not load due to <red>" + startupData.getLoadErrors() + "<gray> error(s)!");
+            startupDebug("<gold>" + getPluginMeta().getName() + "<gray> could not load due to <red>" + startupDataManager.getLoadErrors() + "<gray> error(s)!");
             startupDebug("");
             startupDebug("<red>Please read any information shown to try to understand this error!");
             startupDebug("<gold>>" + getPluginMeta().getName() + "<gray> will now be disabled!");
@@ -245,7 +229,7 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
             Bukkit.getScheduler().runTaskAsynchronously(this , () -> Bukkit.getPluginManager().disablePlugin(this));
         } else {
             startupDebug("<gray>");
-            startupDebug("<gold>" + getPluginMeta().getName() + "<gray> has loaded with " + startupData.getLoadErrors() + "<gray> error(s)!");
+            startupDebug("<gold>" + getPluginMeta().getName() + "<gray> has loaded with " + startupDataManager.getLoadErrors() + "<gray> error(s)!");
             startupDebug("<gray>Took: " + determineTimePassed(startTime) + "ms to start plugin. <green>=)");
             startupDebug("<gray>()=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=()");
             startupDebug("");
@@ -254,48 +238,14 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     }
 
     protected void startupDebug(String message){
-        if(startupData.getStartupDebug()) getComponentLogger().info(TextCreator.create(message));
+        if(startupDataManager.getStartupDebug()) getComponentLogger().info(TextCreator.create(message));
     }
 
     private double determineTimePassed(long start) {
         return ((System.nanoTime()-start)/1e6);
     }
 
-    public InternalMessageManager getInternalMessageManager() {
-        return internalMessageManager;
-    }
-
-    public ConfigurationHandler getFoundationConfiguration() {
-        return foundationConfiguration;
-    }
-
-    public MessagesManager getMessagesManager() {
-        return messagesManager;
-    }
-
-    public ItemManager getItemManager() {
-        return itemManager;
-    }
-
-    public TextCreator getTextCreator() {
-        return textCreator;
-    }
-
-    public FileManager getFileManager() {
-        return fileManager;
-    }
-
-    public MenuManager getMenuManager() {
-        return menuManager;
-    }
-
     public static FoundationPaperPlugin getInstance() {
         return instance;
     }
-
-    public PluginStartupData getStartupData() {
-        return startupData;
-    }
-
-
 }

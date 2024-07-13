@@ -42,24 +42,6 @@
             <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.itsradiix.foundationapi</groupId>
-            <artifactId>internal-messaging-module</artifactId>
-            <version>${revision}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.itsradiix.foundationapi</groupId>
-            <artifactId>item-module</artifactId>
-            <version>${revision}</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.itsradiix.foundationapi</groupId>
-            <artifactId>menu-module</artifactId>
-            <version>${revision}</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
 
     <distributionManagement>

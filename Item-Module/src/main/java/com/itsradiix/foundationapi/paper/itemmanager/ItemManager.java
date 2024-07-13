@@ -1,5 +1,6 @@
 package com.itsradiix.foundationapi.paper.itemmanager;
 
+import com.itsradiix.foundationapi.paper.manager.PaperManager;
 import io.papermc.paper.event.block.CompostItemEvent;
 import io.papermc.paper.event.entity.EntityCompostItemEvent;
 import io.papermc.paper.event.entity.EntityDamageItemEvent;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Map;
 
 @SuppressWarnings("unused")
-public class ItemManager implements Listener{
+public class ItemManager implements Listener, PaperManager {
 
     private static Map<String, CustomItem> customItemMap;
     private static NamespacedKey namespacedKey;
@@ -35,8 +36,22 @@ public class ItemManager implements Listener{
     public ItemManager(JavaPlugin plugin) {
         customItemMap = new HashMap<>();
         namespacedKey = new NamespacedKey(plugin, "custom_item");
-        plugin.getServer().getPluginManager().registerEvents(this, plugin);
         ItemManager.plugin = plugin;
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    @Override
+    public void onEnable() {
+        plugin.getServer().getPluginManager().registerEvents(this, plugin);
+    }
+
+    @Override
+    public void onDisable() {
+
     }
 
     public void registerCustomItem(CustomItem item){

@@ -43,4 +43,19 @@ public class VelocityFileManager extends FileManager {
     public String getDataFolder() {
         return dataDirectory.getFileName().toString();
     }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    @Override
+    public void onEnable() {
+
+    }
+
+    @Override
+    public void onDisable() {
+        shutdown();
+    }
 }

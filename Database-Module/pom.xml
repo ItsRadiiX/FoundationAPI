@@ -56,6 +56,12 @@
             <groupId>net.kyori</groupId>
             <artifactId>adventure-text-logger-slf4j</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>manager-module</artifactId>
+            <version>1.0.1</version>
+            <scope>compile</scope>
+        </dependency>
     </dependencies>
 
     <build>

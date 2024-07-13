@@ -1,5 +1,6 @@
 package com.itsradiix.foundationapi.common.textmanager;
 
+import com.itsradiix.foundationapi.common.manager.CommonManager;
 import com.itsradiix.foundationapi.common.playerinfo.PlayerInfo;
 import com.itsradiix.foundationapi.common.textmanager.languages.Language;
 import com.itsradiix.foundationapi.common.textmanager.languages.providers.LanguageProvider;
@@ -13,7 +14,7 @@ import java.util.Map;
 import static com.itsradiix.foundationapi.common.textmanager.TextCreator.parseObjectToString;
 
 @SuppressWarnings("unused")
-public class MessagesManager {
+public class MessagesManager implements CommonManager {
     private static MessagesManager instance;
     private static Map<Locale, Language> languages;
     private static Locale defaultLocale;
@@ -82,5 +83,20 @@ public class MessagesManager {
 
     public ComponentLogger getComponentLogger() {
         return componentLogger;
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    @Override
+    public void onEnable() {
+
+    }
+
+    @Override
+    public void onDisable() {
+
     }
 }

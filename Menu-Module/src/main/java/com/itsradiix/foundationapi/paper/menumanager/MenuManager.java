@@ -2,6 +2,7 @@ package com.itsradiix.foundationapi.paper.menumanager;
 
 import com.itsradiix.foundationapi.paper.exceptions.MenuManagerException;
 import com.itsradiix.foundationapi.paper.exceptions.MenuManagerNotSetupException;
+import com.itsradiix.foundationapi.paper.manager.PaperManager;
 import com.itsradiix.foundationapi.paper.menumanager.listeners.MenuListener;
 import org.bukkit.NamespacedKey;
 import org.bukkit.entity.Player;
@@ -13,7 +14,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashMap;
 
-public class MenuManager {
+public class MenuManager implements PaperManager {
 
     private static MenuManager instance;
     private static JavaPlugin plugin;
@@ -26,7 +27,21 @@ public class MenuManager {
         instance = this;
         MenuManager.plugin = plugin;
         namespacedKey = new NamespacedKey(plugin, "menu_item");
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    @Override
+    public void onEnable() {
         registerMenuListener(plugin);
+    }
+
+    @Override
+    public void onDisable() {
+
     }
 
     private void registerMenuListener(Plugin plugin) {

@@ -5,13 +5,14 @@ import com.itsradiix.foundationapi.common.internalmessaging.listener.InternalMes
 import com.itsradiix.foundationapi.common.exceptions.InternalMessageException;
 import com.itsradiix.foundationapi.common.internalmessaging.listener.RegisteredInternalMessageListener;
 import com.itsradiix.foundationapi.common.internalmessaging.message.InternalMessage;
+import com.itsradiix.foundationapi.common.manager.CommonManager;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-public class InternalMessageManager {
+public class InternalMessageManager implements CommonManager {
 
     private static InternalMessageManager instance;
     private final ComponentLogger logger;
@@ -148,5 +149,20 @@ public class InternalMessageManager {
 
     public static InternalMessageManager getInstance() {
         return instance;
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    @Override
+    public void onEnable() {
+
+    }
+
+    @Override
+    public void onDisable() {
+
     }
 }

@@ -3,6 +3,7 @@ package com.itsradiix.foundationapi.common.datamanagement.files;
 import com.itsradiix.foundationapi.common.datamanagement.files.handlers.FileHandler;
 import com.itsradiix.foundationapi.common.datamanagement.files.handlers.Handler;
 import com.itsradiix.foundationapi.common.exceptions.FileManagerException;
+import com.itsradiix.foundationapi.common.manager.CommonManager;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 
 import java.io.InputStream;
@@ -11,8 +12,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.*;
 
-public abstract class FileManager {
-
+public abstract class FileManager implements CommonManager {
     protected static FileManager instance;
 
     private static final ScheduledExecutorService executor = Executors.newScheduledThreadPool(4, Thread.ofVirtual().factory());
@@ -33,11 +33,10 @@ public abstract class FileManager {
             throw new FileManagerException("You can only have one instance of the FileManager at a time.");
         }
         FileManager.instance = this;
-
         this.logger = logger;
     }
 
-    public void shutdown() {
+    protected void shutdown() {
         stopAutoReloading();
         executor.shutdown();
 

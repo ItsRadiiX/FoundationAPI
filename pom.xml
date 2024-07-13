@@ -23,10 +23,11 @@
         <module>Math-Module</module>
         <module>Utils-Module</module>
         <module>Project-Module</module>
+        <module>Manager-Module</module>
     </modules>
 
     <properties>
-        <revision>1.0.1</revision>
+        <revision>1.0.2</revision>
         <java.version>21</java.version>
         <parent.project.build.sourceEncoding>UTF-8</parent.project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

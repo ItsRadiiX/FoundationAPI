@@ -2,24 +2,40 @@ package com.itsradiix.foundationapi.common.startup;
 
 import com.itsradiix.foundationapi.common.datamanagement.files.converter.YAMLConverter;
 import com.itsradiix.foundationapi.common.datamanagement.files.handlers.ConfigurationHandler;
+import com.itsradiix.foundationapi.common.manager.CommonManager;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class PluginStartupData {
+public class StartupDataManager implements CommonManager {
 
-    private static PluginStartupData instance;
+    private static StartupDataManager instance;
 
     private final ConfigurationHandler startupFile;
     private final List<LoadError> loadErrors;
     private final ComponentLogger logger;
 
-    public PluginStartupData(ComponentLogger logger){
+    public StartupDataManager(ComponentLogger logger){
         instance = this;
         this.logger = logger;
         startupFile = new ConfigurationHandler("configuration/startup.yml", new YAMLConverter<>(),true,true);
         loadErrors = new ArrayList<>();
+    }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    @Override
+    public void onEnable() {
+
+    }
+
+    @Override
+    public void onDisable() {
+
     }
 
     public void addLoadError(LoadError error){
@@ -64,7 +80,7 @@ public class PluginStartupData {
         return startupFile.getStringList("logo", new ArrayList<>());
     }
 
-    public static PluginStartupData getInstance() {
+    public static StartupDataManager getInstance() {
         return instance;
     }
 

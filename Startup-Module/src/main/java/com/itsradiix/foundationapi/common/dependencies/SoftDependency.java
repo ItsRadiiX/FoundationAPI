@@ -1,7 +1,7 @@
 package com.itsradiix.foundationapi.common.dependencies;
 
 import com.itsradiix.foundationapi.common.startup.LoadError;
-import com.itsradiix.foundationapi.common.startup.PluginStartupData;
+import com.itsradiix.foundationapi.common.startup.StartupDataManager;
 
 import java.lang.reflect.InvocationTargetException;
 
@@ -20,7 +20,7 @@ public record SoftDependency<T>(String name, Class<T> classType) implements Depe
                  IllegalAccessException |
                  NoSuchMethodException |
                  InvocationTargetException e) {
-            PluginStartupData.getInstance().addLoadError(new LoadError(LoadError.Level.RISK, "Unable to load dependency: " + name));
+            StartupDataManager.getInstance().addLoadError(new LoadError(LoadError.Level.RISK, "Unable to load dependency: " + name));
             return null;
         }
     }

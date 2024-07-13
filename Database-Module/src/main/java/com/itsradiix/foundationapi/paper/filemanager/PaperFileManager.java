@@ -35,4 +35,19 @@ public class PaperFileManager extends FileManager {
     public String getDataFolder() {
         return javaPlugin.getDataFolder().getPath();
     }
+
+    @Override
+    public void onLoad() {
+
+    }
+
+    @Override
+    public void onEnable() {
+
+    }
+
+    @Override
+    public void onDisable() {
+        shutdown();
+    }
 }

@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.itsradiix.foundationapi</groupId>
-    <artifactId>menu-module</artifactId>
+    <artifactId>manager-module</artifactId>
 
     <packaging>jar</packaging>
 
@@ -28,25 +28,6 @@
         </repository>
     </distributionManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.itsradiix.foundationapi</groupId>
-            <artifactId>item-module</artifactId>
-            <version>1.0.0</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.itsradiix.foundationapi</groupId>
-            <artifactId>manager-module</artifactId>
-            <version>1.0.1</version>
-            <scope>compile</scope>
-        </dependency>
-    </dependencies>
-
     <build>
         <plugins>
             <plugin>
@@ -58,27 +39,7 @@
                     <target>${java.version}</target>
                 </configuration>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-shade-plugin</artifactId>
-                <version>${maven.shade.version}</version>
-                <executions>
-                    <execution>
-                        <id>shade</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>shade</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
-        <resources>
-            <resource>
-                <directory>src/main/resources</directory>
-                <filtering>true</filtering>
-            </resource>
-        </resources>
     </build>
 
 </project>

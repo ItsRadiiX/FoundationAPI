@@ -17,7 +17,7 @@ public class StartupTask implements Comparable<StartupTask> {
     private double timePassed;
 
     public StartupTask(int weight, String startupMessage, String completeMessage, Runnable execute) {
-        this.logger = PluginStartupData.getInstance().getLogger();
+        this.logger = StartupDataManager.getInstance().getLogger();
         this.weight = weight;
         this.startupMessage = startupMessage;
         this.completeMessage = completeMessage;
@@ -28,7 +28,7 @@ public class StartupTask implements Comparable<StartupTask> {
     }
 
     public StartupTask(int weight, Runnable execute) {
-        this.logger = PluginStartupData.getInstance().getLogger();
+        this.logger = StartupDataManager.getInstance().getLogger();
         this.weight = weight;
         this.execute = execute;
     }
