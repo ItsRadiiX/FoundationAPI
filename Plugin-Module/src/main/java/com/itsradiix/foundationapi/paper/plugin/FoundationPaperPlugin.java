@@ -47,11 +47,8 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
 
     private TextCreator textCreator;
 
-
-
     private boolean dependenciesLoaded;
     private long startTime ;
-
 
     protected abstract List<Dependency<?>> getDependencies();
     protected abstract List<FoundationPaperComponent> getComponents();

@@ -27,37 +27,37 @@
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
             <artifactId>startup-module</artifactId>
-            <version>1.0.0</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
             <artifactId>database-module</artifactId>
-            <version>1.0.0</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
             <artifactId>text-management-module</artifactId>
-            <version>1.0.0</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
             <artifactId>internal-messaging-module</artifactId>
-            <version>1.0.0</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
             <artifactId>item-module</artifactId>
-            <version>1.0.0</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
             <artifactId>menu-module</artifactId>
-            <version>1.0.0</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

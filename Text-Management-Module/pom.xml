@@ -44,13 +44,13 @@
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
             <artifactId>playerInfo-module</artifactId>
-            <version>1.0.0</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
             <artifactId>database-module</artifactId>
-            <version>1.0.0</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>

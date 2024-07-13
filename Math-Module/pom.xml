@@ -9,7 +9,7 @@
         <version>${revision}</version>
     </parent>
 
-    <groupId>com.itsradiix.foundation</groupId>
+    <groupId>com.itsradiix.foundationapi</groupId>
     <artifactId>math-module</artifactId>
 
     <packaging>jar</packaging>

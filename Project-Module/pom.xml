@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.itsradiix</groupId>
+        <artifactId>foundationapi</artifactId>
+        <version>${revision}</version>
+    </parent>
+
+    <groupId>com.itsradiix.foundationapi</groupId>
+    <artifactId>project-module</artifactId>
+
+    <packaging>jar</packaging>
+
+    <properties>
+        <maven.compiler.source>${java.version}</maven.compiler.source>
+        <maven.compiler.target>${java.version}</maven.compiler.target>
+        <project.build.sourceEncoding>${parent.project.build.sourceEncoding}</project.build.sourceEncoding>
+    </properties>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-shade-plugin</artifactId>
+                <version>${maven.shade.version}</version>
+                <executions>
+                    <execution>
+                        <id>shade</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>shade</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+    <dependencies>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>plugin-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>database-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>internal-messaging-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>item-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>menu-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>math-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>playerinfo-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>startup-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>text-management-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>utils-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
+    </dependencies>
+</project>

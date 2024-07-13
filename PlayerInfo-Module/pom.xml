@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.itsradiix.foundationapi</groupId>
-    <artifactId>playerInfo-module</artifactId>
+    <artifactId>playerinfo-module</artifactId>
 
     <packaging>jar</packaging>
 
