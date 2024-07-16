@@ -12,6 +12,7 @@
     <name>FoundationAPI</name>
 
     <modules>
+        <module>Manager-Module</module>
         <module>Database-Module</module>
         <module>Internal-Messaging-Module</module>
         <module>PlayerInfo-Module</module>
@@ -23,11 +24,10 @@
         <module>Math-Module</module>
         <module>Utils-Module</module>
         <module>Project-Module</module>
-        <module>Manager-Module</module>
     </modules>
 
     <properties>
-        <revision>1.0.2</revision>
+        <revision>1.0.3</revision>
         <java.version>21</java.version>
         <parent.project.build.sourceEncoding>UTF-8</parent.project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

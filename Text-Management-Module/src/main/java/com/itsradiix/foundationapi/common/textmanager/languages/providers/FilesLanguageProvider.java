@@ -35,7 +35,7 @@ public class FilesLanguageProvider implements LanguageProvider {
                     });
                     TextCreator.addTagResolvers(tags);
                 } else {
-                    languagesByLocale.put(Locale.of(locale), new Language(language));
+                    languagesByLocale.put(Locale.forLanguageTag(locale), new Language(language));
                 }
             } catch (Exception e){
                 MessagesManager.getInstance().getComponentLogger().warn("<red>Could not identify locale: {}", language.get("locale"));

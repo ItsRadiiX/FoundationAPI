@@ -36,13 +36,13 @@
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
             <artifactId>item-module</artifactId>
-            <version>1.0.0</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
             <artifactId>manager-module</artifactId>
-            <version>1.0.1</version>
+            <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
     </dependencies>
