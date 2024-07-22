@@ -1,8 +1,5 @@
 package com.itsradiix.foundationapi.common.textmanager;
 
-
-import com.itsradiix.foundationapi.common.exceptions.InvalidMessagesException;
-import com.itsradiix.foundationapi.common.playerinfo.PlayerInfo;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.TextComponent;
 import net.kyori.adventure.text.minimessage.MiniMessage;
@@ -14,6 +11,7 @@ import org.intellij.lang.annotations.Subst;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.InvalidObjectException;
 import java.util.*;
 
 @SuppressWarnings("unused")
@@ -33,7 +31,7 @@ public final class TextCreator {
         return create(text, null);
     }
 
-    public static @NotNull Component create(List<String> text, PlayerInfo player, TagResolver... tagResolver) {
+    public static @NotNull Component create(List<String> text, UUID player, TagResolver... tagResolver) {
         String s = Placeholders.parsePlaceholder(player, combineIterable(text));
         return getMiniMessage().deserialize(s, tagResolver);
     }
@@ -46,7 +44,7 @@ public final class TextCreator {
         return create(text, null);
     }
 
-    public static @NotNull Component create(String[] text, PlayerInfo player, TagResolver... tagResolver) {
+    public static @NotNull Component create(String[] text, UUID player, TagResolver... tagResolver) {
         String s = Placeholders.parsePlaceholder(player, combineIterable(List.of(text)));
         return getMiniMessage().deserialize(s, tagResolver);
     }
@@ -59,7 +57,7 @@ public final class TextCreator {
         return create(text, null);
     }
 
-    public static @NotNull Component create(String text, PlayerInfo player, TagResolver... tagResolver) {
+    public static @NotNull Component create(String text, UUID player, TagResolver... tagResolver) {
         String s = Placeholders.parsePlaceholder(player, text);
         return getMiniMessage().deserialize(s, tagResolver);
     }
@@ -135,12 +133,12 @@ public final class TextCreator {
         }
     }
 
-    public static String parseObjectToString(Object o) throws InvalidMessagesException {
+    public static String parseObjectToString(Object o) throws InvalidObjectException {
         switch (o) {
             case String s -> {return s;}
             case String[] s -> {return TextCreator.combineIterable(Arrays.asList(s));}
             case List<?> s -> {return TextCreator.combineIterable(castToStringList(s));}
-            case null, default -> throw new InvalidMessagesException("Your messages configuration is invalid! It contains an object that cannot be interpreted as a Message");
+            case null, default -> throw new InvalidObjectException("Your messages configuration is invalid! It contains an object that cannot be interpreted as a Message");
         }
     }
 

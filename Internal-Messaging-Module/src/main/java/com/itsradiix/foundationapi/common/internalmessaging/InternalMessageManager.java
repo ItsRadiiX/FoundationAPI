@@ -2,7 +2,7 @@ package com.itsradiix.foundationapi.common.internalmessaging;
 
 import com.itsradiix.foundationapi.common.internalmessaging.executor.InternalMessageExecutor;
 import com.itsradiix.foundationapi.common.internalmessaging.listener.InternalMessageListener;
-import com.itsradiix.foundationapi.common.exceptions.InternalMessageException;
+import com.itsradiix.foundationapi.common.messages.exceptions.InternalMessageException;
 import com.itsradiix.foundationapi.common.internalmessaging.listener.RegisteredInternalMessageListener;
 import com.itsradiix.foundationapi.common.internalmessaging.message.InternalMessage;
 import com.itsradiix.foundationapi.common.manager.CommonManager;

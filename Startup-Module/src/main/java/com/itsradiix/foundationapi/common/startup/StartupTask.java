@@ -1,5 +1,6 @@
 package com.itsradiix.foundationapi.common.startup;
 
+import com.itsradiix.foundationapi.common.textmanager.TextCreator;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import org.jetbrains.annotations.NotNull;
 
@@ -35,18 +36,25 @@ public class StartupTask implements Comparable<StartupTask> {
 
     public void run() {
 
-        if (startupMessage != null && !startupMessage.isBlank()) {
-            logger.info(String.format("<gray>%-40s | (task %d Started)", startupMessage, taskID));
+        if (showMessage(startupMessage)) {
+            logger.info(TextCreator.create(
+                    String.format("<gray>%-40s | (task %d Started)", startupMessage, taskID)));
         }
 
         long startTime = System.nanoTime();
         execute.run();
         timePassed = determineTimePassed(startTime);
 
-        if (completeMessage != null && !completeMessage.isBlank()) {
-            logger.info(String.format("<gray>%-40s | (task %d Completed, took: %fms)", completeMessage, taskID, timePassed));
-            logger.info(String.format("<gray>%-40s |", ""));
+        if (showMessage(completeMessage)) {
+            logger.info(TextCreator.create(
+                    String.format("<gray>%-40s | (task %d Completed, took: %fms)", completeMessage, taskID, timePassed)));
+            logger.info(TextCreator.create(
+                    String.format("<gray>%-40s |", "")));
         }
+    }
+
+    private boolean showMessage(String message){
+        return message != null && !message.isBlank() && StartupDataManager.getInstance().getStartupDebug();
     }
 
     public int getWeight() {

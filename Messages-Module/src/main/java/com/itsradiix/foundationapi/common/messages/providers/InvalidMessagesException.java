@@ -1,4 +1,4 @@
-package com.itsradiix.foundationapi.common.exceptions;
+package com.itsradiix.foundationapi.common.messages.providers;
 
 public class InvalidMessagesException extends RuntimeException {
 

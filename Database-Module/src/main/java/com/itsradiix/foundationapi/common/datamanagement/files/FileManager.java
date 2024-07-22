@@ -2,7 +2,7 @@ package com.itsradiix.foundationapi.common.datamanagement.files;
 
 import com.itsradiix.foundationapi.common.datamanagement.files.handlers.FileHandler;
 import com.itsradiix.foundationapi.common.datamanagement.files.handlers.Handler;
-import com.itsradiix.foundationapi.common.exceptions.FileManagerException;
+import com.itsradiix.foundationapi.common.messages.exceptions.FileManagerException;
 import com.itsradiix.foundationapi.common.manager.CommonManager;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 

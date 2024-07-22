@@ -10,7 +10,7 @@
     </parent>
 
     <groupId>com.itsradiix.foundationapi</groupId>
-    <artifactId>plugin-module</artifactId>
+    <artifactId>messages-module</artifactId>
 
     <packaging>jar</packaging>
 
@@ -19,16 +19,27 @@
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <project.build.sourceEncoding>${parent.project.build.sourceEncoding}</project.build.sourceEncoding>
     </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>github</id>
+            <name>GitHub ItsRadiiX Apache Maven Packages</name>
+            <url>https://maven.pkg.github.com/ItsRadiiX/FoundationAPI</url>
+        </repository>
+    </distributionManagement>
+
     <dependencies>
         <dependency>
-            <groupId>io.papermc.paper</groupId>
-            <artifactId>paper-api</artifactId>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-minimessage</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.itsradiix.foundationapi</groupId>
-            <artifactId>startup-module</artifactId>
-            <version>${revision}</version>
-            <scope>compile</scope>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-serializer-legacy</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>net.kyori</groupId>
+            <artifactId>adventure-text-logger-slf4j</artifactId>
         </dependency>
         <dependency>
             <groupId>com.itsradiix.foundationapi</groupId>
@@ -42,21 +53,7 @@
             <version>${revision}</version>
             <scope>compile</scope>
         </dependency>
-        <dependency>
-            <groupId>com.itsradiix.foundationapi</groupId>
-            <artifactId>messages-module</artifactId>
-            <version>${revision}</version>
-            <scope>compile</scope>
-        </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>github</id>
-            <name>GitHub ItsRadiiX Apache Maven Packages</name>
-            <url>https://maven.pkg.github.com/ItsRadiiX/FoundationAPI</url>
-        </repository>
-    </distributionManagement>
 
     <build>
         <plugins>
@@ -77,7 +74,7 @@
                     <execution>
                         <id>shade</id>
                         <phase>package</phase>
-                    <goals>
+                        <goals>
                             <goal>shade</goal>
                         </goals>
                     </execution>

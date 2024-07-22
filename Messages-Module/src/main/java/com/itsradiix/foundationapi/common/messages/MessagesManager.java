@@ -1,15 +1,16 @@
-package com.itsradiix.foundationapi.common.textmanager;
+package com.itsradiix.foundationapi.common.messages;
 
 import com.itsradiix.foundationapi.common.manager.CommonManager;
-import com.itsradiix.foundationapi.common.playerinfo.PlayerInfo;
-import com.itsradiix.foundationapi.common.textmanager.languages.Language;
-import com.itsradiix.foundationapi.common.textmanager.languages.providers.LanguageProvider;
+import com.itsradiix.foundationapi.common.messages.languages.LanguageProvider;
+import com.itsradiix.foundationapi.common.messages.languages.Language;
+import com.itsradiix.foundationapi.common.textmanager.TextCreator;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.logger.slf4j.ComponentLogger;
 import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 
 import java.util.Locale;
 import java.util.Map;
+import java.util.UUID;
 
 import static com.itsradiix.foundationapi.common.textmanager.TextCreator.parseObjectToString;
 
@@ -36,7 +37,7 @@ public class MessagesManager implements CommonManager {
         return TextCreator.create(getRawMessage(locale, message));
     }
 
-    public Component getMessage(Locale locale, String message, PlayerInfo player, TagResolver... tagResolvers) {
+    public Component getMessage(Locale locale, String message, UUID player, TagResolver... tagResolvers) {
         return TextCreator.create(getRawMessage(locale, message), player, tagResolvers);
     }
 

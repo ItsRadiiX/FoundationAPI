@@ -1,9 +1,10 @@
-package com.itsradiix.foundationapi.common.textmanager.languages.providers;
+package com.itsradiix.foundationapi.common.messages.providers;
 import com.itsradiix.foundationapi.common.datamanagement.files.converter.YAMLConverter;
 import com.itsradiix.foundationapi.common.datamanagement.files.handlers.FolderHandler;
-import com.itsradiix.foundationapi.common.textmanager.MessagesManager;
+import com.itsradiix.foundationapi.common.messages.MessagesManager;
+import com.itsradiix.foundationapi.common.messages.languages.Language;
+import com.itsradiix.foundationapi.common.messages.languages.LanguageProvider;
 import com.itsradiix.foundationapi.common.textmanager.TextCreator;
-import com.itsradiix.foundationapi.common.textmanager.languages.Language;
 
 import java.util.HashMap;
 import java.util.List;

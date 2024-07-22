@@ -90,5 +90,10 @@
             <artifactId>utils-module</artifactId>
             <version>${revision}</version>
         </dependency>
+        <dependency>
+            <groupId>com.itsradiix.foundationapi</groupId>
+            <artifactId>messages-module</artifactId>
+            <version>${revision}</version>
+        </dependency>
     </dependencies>
 </project>

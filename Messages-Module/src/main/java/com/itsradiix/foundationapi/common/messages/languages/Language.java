@@ -1,4 +1,4 @@
-package com.itsradiix.foundationapi.common.textmanager.languages;
+package com.itsradiix.foundationapi.common.messages.languages;
 
 import java.util.Map;
 
