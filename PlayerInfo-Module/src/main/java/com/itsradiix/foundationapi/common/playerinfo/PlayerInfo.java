@@ -15,6 +15,16 @@ public class PlayerInfo {
     @Column(name = "player_name")
     private String playerName;
 
+
+
+
+    public PlayerInfo() {}
+
+    public PlayerInfo(UUID uuid, String playerName) {
+        this.uuid = uuid;
+        this.playerName = playerName;
+    }
+
     public UUID getUuid() {
         return uuid;
     }
