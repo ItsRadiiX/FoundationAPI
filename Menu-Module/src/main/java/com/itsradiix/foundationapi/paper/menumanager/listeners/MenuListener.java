@@ -23,11 +23,12 @@ public class MenuListener implements Listener {
 
             int slotClicked = e.getSlot();
 
-            MenuItem menuItem = menu.getMenuItems().get(slotClicked);
-            if (menuItem == null) {
-                if (holder instanceof PaginatedMenu paginatedMenu){
-                    menuItem = paginatedMenu.getPageMenuItems().get(slotClicked);
-                }
+            MenuItem menuItem;
+
+            if (holder instanceof PaginatedMenu paginatedMenu){
+                menuItem = paginatedMenu.getPageMenuItems().get(slotClicked);
+            } else {
+                menuItem = menu.getMenuItems().get(slotClicked);
             }
 
             if (menuItem == null) return;
