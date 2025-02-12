@@ -12,14 +12,13 @@ public class StartupDataManager implements CommonManager {
 
     private static StartupDataManager instance;
 
-    private final ConfigurationHandler startupFile;
+    private ConfigurationHandler startupFile;
     private final List<LoadError> loadErrors;
     private final ComponentLogger logger;
 
     public StartupDataManager(ComponentLogger logger){
         instance = this;
         this.logger = logger;
-        startupFile = new ConfigurationHandler("configuration/startup.yml", new YAMLConverter<>(),true,true);
         loadErrors = new ArrayList<>();
     }
 
@@ -65,19 +64,30 @@ public class StartupDataManager implements CommonManager {
     }
 
     public Boolean getStartupDebug(){
-        return startupFile.getBoolean("startupDebug", true);
+        return getConfigurationHandler().getBoolean("startupDebug", true);
     }
 
     public Boolean getStartupPromoteAuthor(){
-        return startupFile.getBoolean("startupPromoteAuthor", true);
+        return getConfigurationHandler().getBoolean("startupPromoteAuthor", true);
     }
 
     public Boolean getStartupShowSoftDependencyNotFound(){
-        return startupFile.getBoolean("startupShowSoftDependencyNotFound", true);
+        return getConfigurationHandler().getBoolean("startupShowSoftDependencyNotFound", true);
     }
 
     public List<String> getLogo(){
-        return startupFile.getStringList("logo", new ArrayList<>());
+        return getConfigurationHandler().getStringList("logo", new ArrayList<>());
+    }
+
+    private ConfigurationHandler getConfigurationHandler(){
+        if (startupFile == null){
+            startupFile = new ConfigurationHandler(
+                    "configuration/startup.yml",
+                    new YAMLConverter<>(),
+                    true,
+                    true);
+        }
+        return startupFile;
     }
 
     public static StartupDataManager getInstance() {

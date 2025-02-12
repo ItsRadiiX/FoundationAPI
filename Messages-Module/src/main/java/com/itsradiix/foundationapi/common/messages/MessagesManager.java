@@ -1,7 +1,7 @@
 package com.itsradiix.foundationapi.common.messages;
 
 import com.itsradiix.foundationapi.common.manager.CommonManager;
-import com.itsradiix.foundationapi.common.messages.languages.LanguageProvider;
+import com.itsradiix.foundationapi.common.messages.providers.LanguageProvider;
 import com.itsradiix.foundationapi.common.messages.languages.Language;
 import com.itsradiix.foundationapi.common.textmanager.TextCreator;
 import net.kyori.adventure.text.Component;
@@ -11,8 +11,6 @@ import net.kyori.adventure.text.minimessage.tag.resolver.TagResolver;
 import java.util.Locale;
 import java.util.Map;
 import java.util.UUID;
-
-import static com.itsradiix.foundationapi.common.textmanager.TextCreator.parseObjectToString;
 
 @SuppressWarnings("unused")
 public class MessagesManager implements CommonManager {
@@ -47,11 +45,12 @@ public class MessagesManager implements CommonManager {
 
     public String getRawMessage(Locale locale, String message) {
         try {
-            Language language = languages.get(locale);
+            Language language = getLanguage(locale);
             Object object = language.messages().get(message);
             if (object == null) object = getLanguage(defaultLocale).messages().get(message);
-            return parseObjectToString(object);
+            return TextCreator.parseObjectToString(object);
         } catch (Exception e){
+            componentLogger.warn(e.getMessage());
             componentLogger.warn("Cannot get message with key: {}", message);
             return "{" + message + "}";
         }

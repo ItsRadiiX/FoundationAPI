@@ -71,6 +71,7 @@ public class FileHandler<T> extends Handler {
 
     public void write(){
         try {
+            FileManager.getLogger().info("Writing to File '{}' with contents {}", getFile().getName(), object);
             converter.writeToFile(object, getFile());
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -173,5 +174,9 @@ public class FileHandler<T> extends Handler {
         }
 
         return updated;
+    }
+
+    public String getFileNameWithoutExtension(){
+        return getFile().getName().replaceFirst("[.][^.]+$", "");
     }
 }

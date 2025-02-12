@@ -71,6 +71,10 @@ public abstract class Menu implements InventoryHolder {
             playSound(getOpeningSound());
         }
 
+        player.openInventory(inventory);
+
+        setAllItems();
+
         afterOpenLogic();
     }
 

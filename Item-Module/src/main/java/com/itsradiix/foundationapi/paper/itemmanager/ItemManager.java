@@ -40,9 +40,7 @@ public class ItemManager implements Listener, PaperManager {
     }
 
     @Override
-    public void onLoad() {
-
-    }
+    public void onLoad() {}
 
     @Override
     public void onEnable() {
@@ -50,9 +48,7 @@ public class ItemManager implements Listener, PaperManager {
     }
 
     @Override
-    public void onDisable() {
-
-    }
+    public void onDisable() {}
 
     public void registerCustomItem(CustomItem item){
         if(customItemMap == null) throw new RuntimeException("CustomItemManager has not been initialized yet!");

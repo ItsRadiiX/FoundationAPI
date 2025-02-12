@@ -28,7 +28,7 @@
     </modules>
 
     <properties>
-        <revision>1.0.6</revision>
+        <revision>1.1.16</revision>
         <java.version>21</java.version>
         <parent.project.build.sourceEncoding>UTF-8</parent.project.build.sourceEncoding>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -96,29 +96,21 @@
             </dependency>
 
             <dependency>
-                <groupId>com.fasterxml.jackson.dataformat</groupId>
-                <artifactId>jackson-dataformat-xml</artifactId>
-                <version>2.16.1</version>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-core</artifactId>
+                <version>2.18.1</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.fasterxml.jackson.core</groupId>
+                <artifactId>jackson-databind</artifactId>
+                <version>2.18.1</version>
             </dependency>
 
             <dependency>
                 <groupId>com.fasterxml.jackson.dataformat</groupId>
                 <artifactId>jackson-dataformat-yaml</artifactId>
-                <version>2.16.1</version>
-            </dependency>
-
-            <!-- Hibernate Core -->
-            <dependency>
-                <groupId>org.hibernate.orm</groupId>
-                <artifactId>hibernate-core</artifactId>
-                <version>6.5.2.Final</version>
-            </dependency>
-
-            <!-- Database driver (MySQL) -->
-            <dependency>
-                <groupId>mysql</groupId>
-                <artifactId>mysql-connector-java</artifactId>
-                <version>8.0.28</version>
+                <version>2.18.1</version>
             </dependency>
 
             <dependency>

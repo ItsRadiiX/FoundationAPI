@@ -29,10 +29,6 @@
     </distributionManagement>
 
     <dependencies>
-        <dependency>
-            <groupId>org.hibernate.orm</groupId>
-            <artifactId>hibernate-core</artifactId>
-        </dependency>
 
         <dependency>
             <groupId>io.papermc.paper</groupId>

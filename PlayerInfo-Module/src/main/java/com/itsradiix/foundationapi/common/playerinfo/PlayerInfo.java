@@ -1,22 +1,12 @@
 package com.itsradiix.foundationapi.common.playerinfo;
 
-import jakarta.persistence.*;
-
 import java.util.UUID;
 
-@Entity
-@Table(name = "player_info")
 public class PlayerInfo {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID uuid;
 
-    @Column(name = "player_name")
     private String playerName;
-
-
-
 
     public PlayerInfo() {}
 
