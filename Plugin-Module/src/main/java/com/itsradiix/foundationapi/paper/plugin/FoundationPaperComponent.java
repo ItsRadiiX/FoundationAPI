@@ -9,17 +9,26 @@ public abstract class FoundationPaperComponent {
     protected FoundationPaperPlugin plugin;
     protected ComponentLogger logger;
     protected String name;
+    protected boolean alwaysEnabled;
 
-    public FoundationPaperComponent(FoundationPaperPlugin plugin, ComponentLogger logger, String name) {
+    public FoundationPaperComponent(FoundationPaperPlugin plugin, ComponentLogger logger, String name, boolean alwaysEnabled) {
         this.plugin = plugin;
         this.logger = logger;
         this.name = name;
+        this.alwaysEnabled = alwaysEnabled;
+    }
+
+    public FoundationPaperComponent(FoundationPaperPlugin plugin, ComponentLogger logger, String name) {
+        this(plugin, logger, name, false);
+    }
+
+    public FoundationPaperComponent(FoundationPaperPlugin plugin, ComponentLogger logger, boolean alwaysEnabled) {
+        this(plugin, logger, null, alwaysEnabled);
+        name = this.getClass().getSimpleName();
     }
 
     public FoundationPaperComponent(FoundationPaperPlugin plugin, ComponentLogger logger) {
-        this.plugin = plugin;
-        this.logger = logger;
-        this.name = getClass().getSimpleName();
+        this(plugin, logger, false);
     }
 
     public abstract void onComponentEnable() throws Exception;
@@ -51,4 +60,11 @@ public abstract class FoundationPaperComponent {
         }
     }
 
+    public String getName() {
+        return name;
+    }
+
+    public boolean isAlwaysEnabled() {
+        return alwaysEnabled;
+    }
 }
