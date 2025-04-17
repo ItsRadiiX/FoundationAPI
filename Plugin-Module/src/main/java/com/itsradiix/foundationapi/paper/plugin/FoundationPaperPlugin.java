@@ -46,12 +46,14 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
     @Override
     public void onLoad() {
         instance = this;
-
-        getSortedCommonManager().forEach(CommonManager::onLoad);
-
         try {
+
+            for (CommonManager commonManager : getSortedCommonManager()) {
+                commonManager.onLoad();
+            }
+
             onPluginLoad();
-        } catch (Throwable e) {
+        } catch (Throwable  e) {
             throw new RuntimeException(e);
         }
     }
@@ -62,13 +64,20 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
 
         FoundationPaperServer.setServer(getServer());
 
-        getSortedCommonManager().forEach(CommonManager::onEnable);
-
-        printStartupInfo();
-
-        getSortedTasks().forEach(StartupTask::run);
+        for (CommonManager commonManager : getSortedCommonManager()) {
+            try {
+                commonManager.onEnable();
+            } catch (Exception e) {
+                getComponentLogger().error(e.getMessage());
+            }
+        }
 
         try {
+
+            printStartupInfo();
+
+            getSortedTasks().forEach(StartupTask::run);
+
             onPluginEnable();
         } catch (Throwable e) {
             throw new RuntimeException(e);
@@ -82,11 +91,18 @@ public abstract class FoundationPaperPlugin extends JavaPlugin {
         try {
             onPluginDisable();
         } catch (Throwable e) {
-            throw new RuntimeException(e);
+            getComponentLogger().error(e.getMessage());
         }
 
         disableComponents();
-        getSortedCommonManager().forEach(CommonManager::onDisable);
+
+        try {
+            for (CommonManager commonManager : getSortedCommonManager()) {
+                commonManager.onDisable();
+            }
+        } catch (Throwable e) {
+            getComponentLogger().error(e.getMessage());
+        }
     }
 
     private List<CommonManager> sortedCommonManagers;
