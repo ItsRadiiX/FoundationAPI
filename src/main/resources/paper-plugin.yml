@@ -1,0 +1,20 @@
+name: FoundationAPI
+version: '1.0'
+main: net.astralounge.foundationapi.paper.PaperFoundationAPI
+description: FoundationAPI is the dependency for all my plugins.
+api-version: '1.21'
+authors: [ItsRadiiX]
+dependencies:
+  server:
+    CommandAPI:
+      load: BEFORE
+      required: true
+      join-classpath: true
+    PlaceholderAPI:
+      load: BEFORE
+      required: false
+      join-classpath: true
+    Oraxen:
+      load: BEFORE
+      required: false
+      join-classpath: true
